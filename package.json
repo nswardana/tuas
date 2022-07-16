@@ -1,0 +1,55 @@
+{
+  "name": "grand-stack-starter-web-react",
+  "version": "0.0.1",
+  "description": "React app for GRANDstack Starter",
+  "dependencies": {
+    "@apollo/client": "^3.1.3",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/unstyled": "^5.0.0-alpha.44",
+    "@mui-treasury/component-flex": "0.1.0-alpha.1",
+    "@mui-treasury/components": "^1.10.1",
+    "@mui-treasury/styles": "^1.13.1",
+    "@mui/material": "^5.9.0",
+    "classnames": "^2.2.6",
+    "d3": "^5.16.0",
+    "graphology": "^0.24.1",
+    "graphql": "^14.5.8",
+    "interactjs": "^1.10.17",
+    "moment": "^2.29.1",
+    "mui-treasury": "^0.1.5-alpha.3",
+    "react": "^17.0.1",
+    "react-calendar-timeline": "^0.28.0",
+    "react-d3-graph": "^2.6.0",
+    "react-dom": "^17.0.1",
+    "react-horizontal-stacked-bar-chart": "^8.15.2",
+    "react-icons": "^4.4.0",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^4.0.2",
+    "react-sigma": "^1.2.35",
+    "react-vis": "^1.11.7",
+    "react-vis-force": "^0.3.1",
+    "react-vis-styles": "^0.3.7",
+    "recharts": "^1.8.5",
+    "sigma": "^2.3.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "now-build": "react-scripts build"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^0.20.0"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
