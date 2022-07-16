@@ -127,14 +127,12 @@ export default function TwitterUserDetail({ dataUser = '' }) {
             noWrap
             style={{
               fontSize: '0.875rem',
-              color: '#758392',
+              color: '#000',
               mt: -0.25,
             }}
           >
-            <p p className={styles.statValue}>
-              > Positive {objSentiment.positive}| Negative{' '}
-              {objSentiment.negative} | Neutral {objSentiment.neutral}{' '}
-            </p>
+            Positive {objSentiment.positive}| Negative {objSentiment.negative} |
+            Neutral {objSentiment.neutral}{' '}
           </Typography>
 
           <TwitterUserSentimentChart data={objSentiment} />

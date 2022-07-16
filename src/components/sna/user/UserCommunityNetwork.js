@@ -102,25 +102,23 @@ export default function UserCommunityNetwork(ObjComId) {
         })
       }
 
-      /*
       if (
         !links.some(
           ({ source, target }) => source == node_start && target == node_end
         )
       ) {
-        */
-      var type_curve = 'STRAIGHT'
-      if (type_rel === 'REPLY') type_curve = 'CURVE_FULL'
-      if (type_rel === 'MENTIONS') type_curve = 'CURVE_SMOOTH'
+        var type_curve = 'STRAIGHT'
+        if (type_rel === 'REPLY') type_curve = 'CURVE_FULL'
+        if (type_rel === 'MENTIONS') type_curve = 'CURVE_SMOOTH'
 
-      links.push({
-        key: generateKey(node_start),
-        source: node_start,
-        target: node_end,
-        label: type_rel,
-        type: type_curve,
-      })
-      //}
+        links.push({
+          key: generateKey(node_start),
+          source: node_start,
+          target: node_end,
+          label: type_rel,
+          type: type_curve,
+        })
+      }
     }
   )
 
@@ -146,9 +144,9 @@ export default function UserCommunityNetwork(ObjComId) {
   const myConfig = {
     d3: {
       alphaTarget: 0.05,
-      gravity: -250,
-      linkLength: 50,
-      linkStrength: 10,
+      gravity: -230,
+      linkLength: 100,
+      linkStrength: 1,
       disableLinkForce: false,
     },
     nodeHighlightBehavior: true,
@@ -179,7 +177,7 @@ export default function UserCommunityNetwork(ObjComId) {
                   component="div"
                   style={{ color: '#12939A' }}
                 >
-                  # Network Community
+                  # Community Network
                 </Typography>
               }
               action={
