@@ -17,8 +17,8 @@ import { Graph } from 'react-d3-graph'
 import { useQuery, useMutation, gql } from '@apollo/client'
 
 const GET_USER_TWEET_REL = gql`
-  query getTrack($community_id: Int) {
-    getUserAndTweetByCommunityId(community_id: $community_id) {
+  query getTrack($project_id: Int) {
+    getUserAndTweetByProjectId(project_id: $project_id) {
       node_id
       screen_name
       name
@@ -28,18 +28,24 @@ const GET_USER_TWEET_REL = gql`
       type_rel
       node_start
       node_end
-      community_id
+      project_id
       profile_image_url
+      user_id
     }
   }
 `
 
-export default function UserCommunityNetwork(ObjComId) {
-  var commId = parseInt(ObjComId.community_id)
-  console.log('community_id ' + commId)
+import { useHistory, useLocation } from 'react-router-dom'
+
+export default function UserTweetNetwork(ObjComId) {
+  const history = useHistory()
+
+  var project_id = sessionStorage.getItem('project_id')
+  console.log('UserTweetNetwork project_id ')
+  console.log(project_id)
 
   const nodeQuery = useQuery(GET_USER_TWEET_REL, {
-    variables: { community_id: commId },
+    variables: { project_id: parseInt(project_id) },
   })
 
   const error = nodeQuery.error
@@ -55,15 +61,15 @@ export default function UserCommunityNetwork(ObjComId) {
   var links = []
 
   console.log('nodeQuery')
-  console.log(nodeQuery.data.getUserAndTweetByCommunityId)
+  console.log(nodeQuery.data.getUserAndTweetByProjectId)
 
   const generateKey = (pre) => {
     return `${pre}_${new Date().getTime()}`
   }
 
-  nodeQuery.data.getUserAndTweetByCommunityId.map(
+  nodeQuery.data.getUserAndTweetByProjectId.map(
     ({
-      community_id,
+      project_id,
       user_id,
       screen_name,
       name,
@@ -89,6 +95,8 @@ export default function UserCommunityNetwork(ObjComId) {
           size: 400,
           index: index,
           fontSize: 10,
+          type: 'user',
+          user_id: user_id,
         })
       }
       if (!nodes.some(({ id }) => id == node_end)) {
@@ -100,6 +108,7 @@ export default function UserCommunityNetwork(ObjComId) {
           label: tweet,
           index: index,
           fontSize: 10,
+          type: 'tweet',
           svg:
             'https://w7.pngwing.com/pngs/239/740/png-transparent-twitter-logo-icon-twitter-file-logo-social-media-news-thumbnail.png',
         })
@@ -174,39 +183,43 @@ export default function UserCommunityNetwork(ObjComId) {
     },
   }
 
+  const onClickNode = function (nodeId, node) {
+    console.log('onClickNode')
+    console.log(nodeId)
+    console.log(node)
+    //if (node.type === 'user') history.push('/twitteruserdetail/' + node.user_id)
+  }
+
   return (
     <React.Fragment>
       {/* TwitterUser */}
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <Card>
-            <CardHeader
-              avatar={
-                <Item grow mr={1}>
-                  <Typography
-                    variant="h5"
-                    component="div"
-                    style={{ color: '#000' }}
-                  >
-                    Network Community
-                  </Typography>
-                </Item>
-              }
-              action={
-                <IconButton aria-label="settings">
-                  <MoreVertIcon />
-                </IconButton>
-              }
-            />
-            <Graph
-              id="graph-id" // id is mandatory
-              data={data}
-              config={myConfig}
-            />
-            ;
-          </Card>
-        </Grid>
-      </Grid>
+      <Card>
+        <CardHeader
+          avatar={
+            <Item grow mr={1}>
+              <Typography
+                variant="h5"
+                component="div"
+                style={{ color: '#000' }}
+              >
+                Network Community
+              </Typography>
+            </Item>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+        />
+        <Graph
+          id="graph-id" // id is mandatory
+          data={data}
+          config={myConfig}
+          onClickNode={onClickNode}
+        />
+        ;
+      </Card>
     </React.Fragment>
   )
 }

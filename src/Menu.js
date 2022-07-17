@@ -1,15 +1,7 @@
 import React from 'react'
 import {
-  CssBaseline,
-  Drawer,
-  Box,
-  AppBar,
-  Toolbar,
   List,
-  Typography,
   Divider,
-  IconButton,
-  Container,
   Link as MUILink,
   ListItem,
   ListItemText,
@@ -32,7 +24,10 @@ import {
   Autorenew as AutorenewIcon,
   SelectAll as MoreTimeIcon,
   Twitter as TwitterIcon,
+  PeopleAlt as HubIcon,
 } from '@material-ui/icons'
+
+//import HubIcon from '@mui/icons-material/Hub'
 
 export default function Menu({ className = '' }) {
   const classes = className
@@ -145,6 +140,21 @@ export default function Menu({ className = '' }) {
             <TwitterIcon />
           </ListItemIcon>
           <ListItemText primary="Tweets" />
+        </ListItem>
+      </Link>
+
+      <Link to="/usertweetnetwork" className={classes.navLink}>
+        <ListItem
+          button
+          selected={selectedIndex === 19}
+          onClick={(event) => {
+            return handleListItemClick(event, 19)
+          }}
+        >
+          <ListItemIcon style={{ color: '#12939A' }}>
+            <HubIcon />
+          </ListItemIcon>
+          <ListItemText primary="Network" />
         </ListItem>
       </Link>
 

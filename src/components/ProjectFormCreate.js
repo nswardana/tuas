@@ -52,9 +52,10 @@ const defaultValues = {
   os: '',
   favoriteNumber: 0,
 }
+
 const CREATE_PROJECT = gql`
-  mutation (
-    $project_id: Long
+  mutation(
+    $project_id: Int
     $title: String
     $keywords: String
     $socialmedia: String
@@ -139,7 +140,7 @@ export default function ProjectFormCreate() {
   function handleCreatePost(event) {
     event.preventDefault()
     let IdFromDate = new Date().getTime()
-    const project_id = IdFromDate.toString().substring(0, 12)
+    const project_id = parseInt(Math.floor(Math.random() * 1000))
 
     createPost({
       variables: {

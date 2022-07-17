@@ -57,12 +57,10 @@ export default function TwitterInfluencer() {
       >
         <Item grow mr={1}>
           <Typography variant="h6">
-            <b>Most Influencer Users</b>
+            <b>Most Influence Users</b>
           </Typography>
         </Item>
-        <Item>
-          <Link href="#">Refresh</Link> • <Link href="#">See all</Link>
-        </Item>
+        <Item></Item>
       </FlexRow>
       <Divider />
       {userInfluencer.data.getUserRankByProject.map((user, index) => (

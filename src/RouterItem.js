@@ -5,9 +5,7 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import Overview from './components/sna/overview/Overview'
 import TweetsContent from './components/sna/tweet/TweetsContent'
 import WordsContent from './components/sna/WordsContent'
-import UsersNetwork from './components/sna/UsersNetwork'
-import WordsNetwork from './components/sna/WordsNetwork'
-import UsersNetworkD3 from './components/sna/UsersNetworkD3'
+import UserTweetNetworkContent from './components/sna/network/UserTweetNetworkContent'
 import HastagsNetwork from './components/sna/HastagsNetwork'
 import TwitterUserContent from './components/sna/user/TwitterUserContent'
 import TwitterUserDetailContent from './components/sna/user/TwitterUserDetailContent'
@@ -20,26 +18,7 @@ import ProjectList from './components/ProjectList'
 import Graph from './components/Graph'
 import ReactForceGraph from './components/ReactForceGraph'
 
-import UsersTweetNetworkSigma from './components/sna/UsersTweetNetworkSigma'
-
-import {
-  CssBaseline,
-  Drawer,
-  Box,
-  AppBar,
-  Toolbar,
-  List,
-  Typography,
-  Divider,
-  IconButton,
-  Container,
-  Link as MUILink,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  ListSubheader,
-} from '@material-ui/core'
-import { Link, useLocation } from 'react-router-dom'
+import { Box, Typography, Container, Link as MUILink } from '@material-ui/core'
 
 function Copyright() {
   return (
@@ -74,9 +53,12 @@ export default function RouterItem({ className = '' }) {
             path="/twitteruserdetail/:id"
             component={TwitterUserDetailContent}
           />
-
+          <Route
+            exact
+            path="/usertweetnetwork"
+            component={UserTweetNetworkContent}
+          />
           <Route exact path="/words" component={WordsContent} />
-
           <Route exact path="/hastagsnetwork" component={HastagsNetwork} />
           <Route exact path="/sentiment" component={SentimentContent} />
           <Route exact path="/react-force-graph" component={ReactForceGraph} />

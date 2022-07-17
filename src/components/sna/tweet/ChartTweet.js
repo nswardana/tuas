@@ -46,21 +46,21 @@ export default function ChartTweet(props) {
     y: data.getSentimentByProjectId[0].jumlah,
     color: '#cd3b54',
     label: 'NULL!',
-    style: { fontSize: 10 },
+    style: { fontSize: 14 },
   })
   dataChart.push({
     x: 'NEUTRAL',
     y: data.getSentimentByProjectId[1].jumlah,
     color: '#59b953',
     label: 'NEUTRAL!',
-    style: { fontSize: 10 },
+    style: { fontSize: 14 },
   })
   dataChart.push({
     x: 'NEGATIVE',
     y: data.getSentimentByProjectId[2].jumlah,
     color: '#ba4fb9',
     label: 'NEGATIVE!',
-    style: { fontSize: 10 },
+    style: { fontSize: 14 },
   })
 
   const labelData = dataChart.map((d, idx) => ({
