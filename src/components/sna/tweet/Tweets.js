@@ -11,44 +11,18 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardHeader from '@material-ui/core/CardHeader'
-
-import IconButton from '@material-ui/core/IconButton'
 
 import { useQuery, gql } from '@apollo/client'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import Chip from '@material-ui/core/Chip'
-import { Column, Row } from '@mui-treasury/components/flex'
-import {
-  Info,
-  InfoTitle,
-  InfoSubtitle,
-  InfoCaption,
-} from '@mui-treasury/components/info'
-
-import { useChatzInfoStyles } from '@mui-treasury/styles/info/chatz'
 import { useDynamicAvatarStyles } from '@mui-treasury/styles/avatar/dynamic'
 import { useGradientAvatarStyles } from '@mui-treasury/styles/avatar/gradient'
 
 import { FlexRow, FlexCol, Item } from '@mui-treasury/component-flex'
-import Link from '@material-ui/core/Link'
-
-import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
-  Assignment as AssignmentIcon,
-  Twitter as TwitterIcon,
-  MoreVert as MoreVertIcon,
-} from '@material-ui/icons'
-import { borders } from '@material-ui/system'
 
 const GET_TOPTWEETS = gql`
-  {
-    getTopTweet {
+  query getQuery($project_id: Int) {
+    getTopTweetByProject(project_id: $project_id) {
       tweet_text
       retweets_count
       username
@@ -58,7 +32,16 @@ const GET_TOPTWEETS = gql`
 `
 
 export default function Tweets() {
-  const { loading, error, data } = useQuery(GET_TOPTWEETS)
+  var project_id = sessionStorage.getItem('project_id')
+  console.log('TopHastags project_id ')
+  console.log(project_id)
+
+  const { error, loading, data } = useQuery(GET_TOPTWEETS, {
+    variables: { project_id: parseInt(project_id) },
+  })
+
+  console.log('data')
+  console.log(data.getTopTweetByProject)
 
   const avatarStyles = useGradientAvatarStyles({
     size: 72,
@@ -93,7 +76,7 @@ export default function Tweets() {
         <List
           sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
         >
-          {data.getTopTweet.map((tweet, index) => (
+          {data.getTopTweetByProject.map((tweet, index) => (
             <ListItem key={index} style={{ borderTop: '#12939A' }}>
               <ListItemAvatar>
                 <Avatar

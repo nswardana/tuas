@@ -4,47 +4,34 @@ import {
   XAxis,
   YAxis,
   HorizontalGridLines,
-  LineSeries,
   makeWidthFlexible,
   FlexibleWidthXYPlot,
-  DiscreteColorLegend,
   VerticalGridLines,
   VerticalBarSeries,
+  LabelSeries,
 } from 'react-vis'
 
 import { FlexRow, FlexCol, Item } from '@mui-treasury/component-flex'
 
-import RVStyles from 'react-vis-styles'
-const FlexibleXYPlot = makeWidthFlexible(XYPlot)
-
 import Typography from '@material-ui/core/Typography'
-import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
-  Assignment as AssignmentIcon,
-  Twitter as TwitterIcon,
-  MoreVert as MoreVertIcon,
-  FormatQuote as FormatQuoteIcon,
-  BarChartRounded as BarChartRoundedIcon,
-} from '@material-ui/icons'
-
 import { useQuery, gql } from '@apollo/client'
 import CircularProgress from '@material-ui/core/CircularProgress'
-
 const GET_TWEET_CHART = gql`
-  {
-    getSentimentByProjectId(project_id: 26) {
+  query getQuery($project_id: Int) {
+    getSentimentByProjectId(project_id: $project_id) {
       sentiment_summary
       jumlah
     }
   }
 `
 
-export default function ChartBar(props) {
-  var project_id = 26
+export default function ChartTweet(props) {
+  var project_id = sessionStorage.getItem('project_id')
+  console.log('ChartTweet project_id ')
+  console.log(project_id)
+
   const { loading, error, data } = useQuery(GET_TWEET_CHART, {
-    variables: { project_id: project_id },
+    variables: { project_id: parseInt(project_id) },
   })
 
   if (error) return <p>Error</p>
@@ -58,17 +45,28 @@ export default function ChartBar(props) {
     x: 'NULL',
     y: data.getSentimentByProjectId[0].jumlah,
     color: '#cd3b54',
+    label: 'NULL!',
+    style: { fontSize: 10 },
   })
   dataChart.push({
     x: 'NEUTRAL',
     y: data.getSentimentByProjectId[1].jumlah,
     color: '#59b953',
+    label: 'NEUTRAL!',
+    style: { fontSize: 10 },
   })
   dataChart.push({
     x: 'NEGATIVE',
     y: data.getSentimentByProjectId[2].jumlah,
     color: '#ba4fb9',
+    label: 'NEGATIVE!',
+    style: { fontSize: 10 },
   })
+
+  const labelData = dataChart.map((d, idx) => ({
+    x: d.x,
+    y: Math.max(dataChart[idx].y),
+  }))
 
   return (
     <FlexCol
@@ -95,17 +93,39 @@ export default function ChartBar(props) {
           <VerticalGridLines />
           <HorizontalGridLines />
           <XAxis
+            attr="x"
+            attrAxis="y"
+            orientation="bottom"
+            tickLabelAngle={0}
             style={{
+              line: { stroke: '#ADDDE1' },
+              ticks: { stroke: '#ADDDE1' },
               text: {
                 stroke: 'none',
+                fill: '#6b6b76',
+                fontWeight: 500,
+                fontSize: 8,
                 top: 20,
-                fontSize: 10,
-                fontWeight: 100,
-                transform: 'translate(10px, 0)',
               },
             }}
           />
-          <YAxis />
+          <YAxis
+            title="Number of Tweets"
+            attr="y"
+            attrAxis="x"
+            orientation="left"
+            style={{
+              line: { stroke: '#ADDDE1' },
+              ticks: { stroke: '#ADDDE1' },
+              text: {
+                stroke: 'none',
+                fill: '#6b6b76',
+                fontWeight: 600,
+                top: 20,
+              },
+            }}
+          />
+
           <VerticalBarSeries color="#FF7F00" data={dataChart} />
         </FlexibleWidthXYPlot>
       </FlexRow>

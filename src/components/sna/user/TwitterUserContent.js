@@ -1,15 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 import { Grid, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import clsx from 'clsx'
 import TwitterUser from './TwitterUser'
-import TwitterCardUser from '../TwitterCardUser'
 
 import TwitterInfluencer from './TwitterInfluencer'
 
-export default function Tweets() {
+export default function TwitterUserContent() {
   const theme = useTheme()
   const useStyles = makeStyles((theme) => ({
     root: {

@@ -6,37 +6,37 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 
 import { FlexRow, FlexCol, Item } from '@mui-treasury/component-flex'
-import Link from '@material-ui/core/Link'
-import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
-
-import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
-  Assignment as AssignmentIcon,
-  Twitter as TwitterIcon,
-  MoreVert as MoreVertIcon,
-  FormatQuote as FormatQuoteIcon,
-  MultilineChartTwoTone as MultilineChartTwoToneIcon,
-} from '@material-ui/icons'
-
 import { useQuery, gql } from '@apollo/client'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 const GET_TOPHASTAG = gql`
-  {
-    getTopHastags {
+  query getHastaqs($project_id: Int) {
+    getTopHastagsByProject(project_id: $project_id) {
       hashtag_text
       countHastag
     }
   }
 `
-export default function TopHastags() {
-  const { loading, error, data } = useQuery(GET_TOPHASTAG)
 
-  if (error) return <p>Error</p>
-  if (loading) return <CircularProgress />
+export default function TopHastags() {
+  var project_id = sessionStorage.getItem('project_id')
+  console.log('TopHastags project_id ')
+  console.log(project_id)
+
+  const userCountHastag = useQuery(GET_TOPHASTAG, {
+    variables: { project_id: parseInt(project_id) },
+  })
+
+  console.log('userCountHastag')
+  console.log(userCountHastag.data)
+
+  if (userCountHastag.errors) return <p>Error</p>
+  if (userCountHastag.loading) return <CircularProgress />
+
+  const userCountHastagArr = [
+    ...userCountHastag.data.getTopHastagsByProject,
+  ].sort((a, b) => b.countHastag - a.countHastag)
 
   return (
     <FlexCol
@@ -56,13 +56,21 @@ export default function TopHastags() {
       >
         <Item grow mr={1}>
           <Typography variant="h6">
-            <b> Hastags</b>
+            <b># Hastags</b>
           </Typography>
         </Item>
-        <Item>Number of Hastags</Item>
+        <Item></Item>
         <Table size="small">
           <TableBody>
-            {data.getTopHastags.map((hastag, index) => (
+            <TableRow>
+              <TableCell>
+                <b># Hastag</b>
+              </TableCell>
+              <TableCell align="right">
+                <b>Number</b>
+              </TableCell>
+            </TableRow>
+            {userCountHastagArr.map((hastag, index) => (
               <TableRow key={hastag.hashtag_text}>
                 <TableCell># {hastag.hashtag_text}</TableCell>
                 <TableCell align="right">{hastag.countHastag}</TableCell>

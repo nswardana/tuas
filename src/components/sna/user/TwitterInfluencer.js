@@ -10,8 +10,8 @@ import { useQuery, gql } from '@apollo/client'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 const GET_USER_INFLUENCER = gql`
-  {
-    getUserRank {
+  query getQuery($project_id: Int) {
+    getUserRankByProject(project_id: $project_id) {
       id
       username
       screen_name
@@ -26,7 +26,13 @@ const GET_USER_INFLUENCER = gql`
 `
 
 export default function TwitterInfluencer() {
-  const userInfluencer = useQuery(GET_USER_INFLUENCER)
+  var project_id = sessionStorage.getItem('project_id')
+  console.log('TwitterInfluencer project_id ')
+  console.log(project_id)
+
+  const userInfluencer = useQuery(GET_USER_INFLUENCER, {
+    variables: { project_id: parseInt(project_id) },
+  })
 
   const error = userInfluencer.error
   const loading = userInfluencer.loading
@@ -59,7 +65,7 @@ export default function TwitterInfluencer() {
         </Item>
       </FlexRow>
       <Divider />
-      {userInfluencer.data.getUserRank.map((user, index) => (
+      {userInfluencer.data.getUserRankByProject.map((user, index) => (
         <InfluencerItem
           src={user.profile_image_url}
           name={user.screen_name}

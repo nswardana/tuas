@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   XYPlot,
   XAxis,
@@ -19,37 +19,26 @@ import Box from '@material-ui/core/Box'
 
 import Typography from '@material-ui/core/Typography'
 
-import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
-  Assignment as AssignmentIcon,
-  Twitter as TwitterIcon,
-  MoreVert as MoreVertIcon,
-  FormatQuote as FormatQuoteIcon,
-  MultilineChartTwoTone as MultilineChartTwoToneIcon,
-} from '@material-ui/icons'
-
-import { useQuery, useMutation, gql } from '@apollo/client'
+import { useQuery, gql } from '@apollo/client'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { SelectedProjectContext } from '../../GlobalParams'
 
-const GET_TWEETS = gql`
-  {
-    getTweetByDate {
+const GET_TWEETS_BY_PROJECT = gql`
+  query getTweet($project_id: Int) {
+    getTweetByDateProject(project_id: $project_id) {
       dateTweet
       countTweet
       countRetweet
     }
   }
 `
-
 export default function ChartTweetRetweet() {
-  const SelectedProject = React.useContext(SelectedProjectContext)
-  console.log('SelectedProject')
-  console.log(SelectedProject)
+  var project_id = sessionStorage.getItem('project_id')
+  console.log('ChartTweetRetweet project_id ')
+  console.log(project_id)
 
-  const tweet = useQuery(GET_TWEETS)
+  const tweet = useQuery(GET_TWEETS_BY_PROJECT, {
+    variables: { project_id: parseInt(project_id) },
+  })
 
   const errors = tweet.error
   const loading = tweet.loading
@@ -57,14 +46,14 @@ export default function ChartTweetRetweet() {
   if (errors) return <p>Error</p>
   if (loading) return <CircularProgress />
 
-  const arrDataTweet = tweet.data.getTweetByDate.map(
+  const arrDataTweet = tweet.data.getTweetByDateProject.map(
     ({ dateTweet, countTweet, countRetweet }) => ({
       x: dateTweet,
       y: countTweet,
     })
   )
 
-  const arrDataReTweet = tweet.data.getTweetByDate.map(
+  const arrDataReTweet = tweet.data.getTweetByDateProject.map(
     ({ dateTweet, countTweet, countRetweet }) => ({
       x: dateTweet,
       y: countRetweet,
@@ -89,11 +78,8 @@ export default function ChartTweetRetweet() {
       >
         <Item grow mr={1}>
           <Typography variant="h6">
-            <b> Graph of Tweet Retweet</b>
+            <b>Tweet and Retweet</b>
           </Typography>
-        </Item>
-        <Item>
-          • <Link href="#">Members </Link>
         </Item>
         <Box sx={{ width: '100%' }}>
           <RVStyles />

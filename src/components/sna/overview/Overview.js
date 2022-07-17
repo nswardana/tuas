@@ -13,53 +13,57 @@ import { useQuery, gql } from '@apollo/client'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 const GET_USER = gql`
-  {
-    getNumberOfUser {
+  query getQuery($project_id: Int) {
+    getNumberOfUser(project_id: $project_id) {
       jumlah
     }
   }
 `
+
 const GET_TWEET = gql`
-  {
-    getNumberOfTweet {
+  query getQuery($project_id: Int) {
+    getNumberOfTweet(project_id: $project_id) {
       jumlah
     }
   }
 `
+
 const GET_HASTAG = gql`
-  {
-    getNumberOfHastag {
+  query getQuery($project_id: Int) {
+    getNumberOfHastag(project_id: $project_id) {
       jumlah
     }
   }
 `
 
 export default function Overview() {
-  const queryUser = useQuery(GET_USER)
+  var project_id = sessionStorage.getItem('project_id')
+  console.log('TwitterUser project_id ')
+  console.log(project_id)
+
+  const queryUser = useQuery(GET_USER, {
+    variables: { project_id: parseInt(project_id) },
+  })
 
   const queryTweet = useQuery(GET_TWEET, {
     skip: queryUser.loading,
+    variables: { project_id: parseInt(project_id) },
   })
-  /*
+
   const queryHastag = useQuery(GET_HASTAG, {
-    skip: queryTweet.loading,
+    skip: queryUser.loading,
+    variables: { project_id: parseInt(project_id) },
   })
-
-  var errors = queryTweet.error || queryHastag.error
-  var loadings = queryTweet.loading || queryHastag.loading
-
-  if (errors) return <p>Error</p>
-  if (loadings) return <CircularProgress />
-  */
 
   var errors = queryUser.error || queryTweet.error
-  var loadings = queryUser.loading || queryTweet.loading
+  var loadings = queryUser.loading || queryTweet.loading || queryHastag.loading
 
   if (errors) return <p>Error</p>
   if (loadings) return <CircularProgress />
 
   console.log(queryUser.data.getNumberOfUser[0].jumlah)
   console.log(queryTweet.data.getNumberOfTweet[0].jumlah)
+  console.log(queryHastag.data.getNumberOfHastag[0].jumlah)
 
   return (
     <React.Fragment>
@@ -87,7 +91,7 @@ export default function Overview() {
           <CardStatistic
             bgcolor="#FFF"
             title="Hastag"
-            subtitle={400}
+            subtitle={queryHastag.data.getNumberOfHastag[0].jumlah}
             desc=""
             avatar="./icons/hastag.png"
           />

@@ -41,7 +41,7 @@ import {
 } from '@material-ui/icons'
 
 import EditIcon from '@material-ui/icons/Edit'
-
+import { Project, ProjectContext } from './ProjectContext'
 import Menu from './Menu'
 import RouterItem from './RouterItem'
 
@@ -173,61 +173,67 @@ export default function App() {
 
   return (
     <Router>
-      <div className={classes.root} style={{ height: '100%' }}>
-        <CssBaseline />
-        <AppBar
-          position="absolute"
-          className={clsx(classes.appBar, open && classes.appBarShift)}
-          style={{ background: '#12939A' }}
-        >
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(
-                classes.menuButton,
-                open && classes.menuButtonHidden
-              )}
-            >
-              <MenuIcon />
-            </IconButton>
-            <img
-              className={classes.appBarImage}
-              src="img/sna.png"
-              alt="Social Network logo"
-            />
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              TOSCA Universal Analytic Social Media
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-          }}
-          open={open}
-        >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Menu className={classes} />
-        </Drawer>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <RouterItem className={classes} />
-        </main>
-      </div>
+      <ProjectContext.Provider value={Project.project_id}>
+
+        <div className={classes.root} style={{ height: '100%' }}>
+          <CssBaseline />
+          <AppBar
+            position="absolute"
+            className={clsx(classes.appBar, open && classes.appBarShift)}
+            style={{ background: '#12939A' }}
+          >
+            <Toolbar className={classes.toolbar}>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                className={clsx(
+                  classes.menuButton,
+                  open && classes.menuButtonHidden
+                )}
+              >
+                <MenuIcon />
+              </IconButton>
+              <img
+                className={classes.appBarImage}
+                src="img/sna.png"
+                alt="Social Network logo"
+              />
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.title}
+              >
+                TOSCA Universal Analytic Social Media
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            variant="permanent"
+            classes={{
+              paper: clsx(
+                classes.drawerPaper,
+                !open && classes.drawerPaperClose
+              ),
+            }}
+            open={open}
+          >
+            <div className={classes.toolbarIcon}>
+              <IconButton onClick={handleDrawerClose}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </div>
+            <Menu className={classes} />
+          </Drawer>
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <RouterItem className={classes} />
+          </main>
+        </div>
+      </ProjectContext.Provider>
     </Router>
   )
 }

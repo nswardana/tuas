@@ -12,8 +12,8 @@ import { useQuery, gql } from '@apollo/client'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 const GET_HASTAGUSERCOUNT = gql`
-  {
-    getHastagsUsersCount {
+  query getQuery($project_id: Int) {
+    getHastagsUsersCountByProject(project_id: $project_id) {
       hastag
       tweet_count
       user_count
@@ -21,8 +21,15 @@ const GET_HASTAGUSERCOUNT = gql`
     }
   }
 `
-export default function TopHastags() {
-  const { loading, error, data } = useQuery(GET_HASTAGUSERCOUNT)
+
+export default function HastagUserCount() {
+  var project_id = sessionStorage.getItem('project_id')
+  console.log('TopHastags project_id ')
+  console.log(project_id)
+
+  const { loading, error, data } = useQuery(GET_HASTAGUSERCOUNT, {
+    variables: { project_id: parseInt(project_id) },
+  })
 
   if (error) return <p>Error</p>
   if (loading) return <CircularProgress />
@@ -50,8 +57,14 @@ export default function TopHastags() {
         </Item>
         <Item>Number of Hastags</Item>
         <Table size="small">
+          <TableHead>
+            <TableCell>Hastag</TableCell>
+            <TableCell>Tweets</TableCell>
+            <TableCell>Users</TableCell>
+            <TableCell>Tweet/ User</TableCell>
+          </TableHead>
           <TableBody>
-            {data.getHastagsUsersCount.map((hastag, index) => (
+            {data.getHastagsUsersCountByProject.map((hastag, index) => (
               <TableRow key={index}>
                 <TableCell># {hastag.hastag}</TableCell>
                 <TableCell align="right">{hastag.tweet_count}</TableCell>

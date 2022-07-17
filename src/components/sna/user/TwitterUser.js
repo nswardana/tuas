@@ -1,47 +1,13 @@
 import React from 'react'
-import { useTheme } from '@material-ui/core/styles'
-import { Grid, Paper } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
-
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import { Divider as Pemisah } from '@material-ui/core/Divider'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardHeader from '@material-ui/core/CardHeader'
-
 import { FlexRow, FlexCol, Item } from '@mui-treasury/component-flex'
 import Divider from '@material-ui/core/Divider'
 import Link from '@material-ui/core/Link'
 import PersonItem from '../PersonItem'
 
-import IconButton from '@material-ui/core/IconButton'
-
-import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
-  Assignment as AssignmentIcon,
-  Twitter as TwitterIcon,
-  MoreVert as MoreVertIcon,
-  People as PeopleIcon,
-} from '@material-ui/icons'
-
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import Button from '@material-ui/core/Button'
-
 const GET_COUNT_TWEET_USER = gql`
-  {
-    getTopUserWithCountTweet {
+  query getQuery($project_id: Int) {
+    getTopUserWithCountTweetByProject(project_id: $project_id) {
       id
       username
       screen_name
@@ -54,11 +20,17 @@ const GET_COUNT_TWEET_USER = gql`
   }
 `
 
-import { useQuery, useLazyQuery, gql } from '@apollo/client'
+import { useQuery, gql } from '@apollo/client'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 export default function TwitterUser() {
-  const userCountTweet = useQuery(GET_COUNT_TWEET_USER)
+  var project_id = sessionStorage.getItem('project_id')
+  console.log('TwitterUser project_id ')
+  console.log(project_id)
+
+  const userCountTweet = useQuery(GET_COUNT_TWEET_USER, {
+    variables: { project_id: parseInt(project_id) },
+  })
 
   console.log('userCountTweet')
   console.log(userCountTweet.data)
@@ -67,7 +39,7 @@ export default function TwitterUser() {
   if (userCountTweet.loading) return <CircularProgress />
 
   const userCountTweetArr = [
-    ...userCountTweet.data.getTopUserWithCountTweet,
+    ...userCountTweet.data.getTopUserWithCountTweetByProject,
   ].sort((a, b) => b.countTweet - a.countTweet)
 
   const userCountTweetArr10 = userCountTweetArr.slice(0, 10)

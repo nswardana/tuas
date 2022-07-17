@@ -10,28 +10,10 @@ import Button from '@material-ui/core/Button'
 import { useQuery, gql } from '@apollo/client'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import Title from './Title'
-
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
-import IconButton from '@material-ui/core/IconButton'
 import moment from 'moment'
-import { SelectedProjectContext } from './GlobalParams'
-/*
-const GET_PROJECTS = gql`
-  {
-    getAllProject {
-      project_id
-      title
-      socialmedia
-      keywords
-      project_type
-      status
-    }
-  }
-`
-*/
 
 export const GET_PROJECTS = gql`
   query getProjectByMode($project_type: String) {
@@ -50,16 +32,11 @@ export const GET_PROJECTS = gql`
 
 import Typography from '@material-ui/core/Typography'
 import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
-  Assignment as AssignmentIcon,
-  Twitter as TwitterIcon,
-  MoreVert as MoreVertIcon,
-  FormatQuote as FormatQuoteIcon,
   TableChart as TableChartIcon,
   Close as CloseIcon,
   CropRotate as CropRotateIcon,
+  Twitter as TwitterIcon,
+  Assignment as AssignmentIcon,
 } from '@material-ui/icons'
 
 export default function ProjectListComponent() {
@@ -114,18 +91,11 @@ export default function ProjectListComponent() {
     else return <Button variant="outlined">{varStatus}</Button>
   }
 
-  function selectRowProject(project) {
-    console.log(project)
-    setProjectIdProvider(project)
+  function selectRowProject(event, Project) {
+    event.preventDefault()
+    var project_id = sessionStorage.setItem('project_id', Project.project_id)
+    console.log('selectRowProject Project')
     history.push('/overview')
-  }
-
-  function setProjectIdProvider(project) {
-    return (
-      <SelectedProjectContext.Provider
-        value={project}
-      ></SelectedProjectContext.Provider>
-    )
   }
 
   function ShowButtonCreateProject() {
@@ -178,7 +148,10 @@ export default function ProjectListComponent() {
             </TableHead>
             <TableBody>
               {data.projects.map((project, index) => (
-                <TableRow key={index} onClick={() => selectRowProject(project)}>
+                <TableRow
+                  key={index}
+                  onClick={(event) => selectRowProject(event, project)}
+                >
                   <TableCell>{project.title}</TableCell>
                   <TableCell>
                     <TwitterIcon style={{ color: '#4DD0E1' }} />
