@@ -1,0 +1,577 @@
+scalar Point
+scalar DateTime
+scalar PointInput
+scalar LocalTime
+scalar Long
+scalar Date
+type Hashtags {
+	project_id: Int!
+	text: String!
+	tweetsTag: [Tweet!]! @relationship(type: "TAG", direction: IN)
+}
+
+type Tweet {
+	conversation_id: BigInt!
+	created_at: String
+	favorite_count: BigInt
+	full_text: String
+	mentionsUsers: [User!]! @relationship(type: "MENTIONS", direction: OUT)
+	project_id: Int!
+	replyTweets: [Tweet!]! @relationship(type: "REPLY", direction: OUT)
+	retweetTweets: [Tweet!]! @relationship(type: "RETWEET", direction: OUT)
+	retweet_count: BigInt
+	tagHashtags: [Hashtags!]! @relationship(type: "TAG", direction: OUT)
+	tweetsReply: [Tweet!]! @relationship(type: "REPLY", direction: IN)
+	tweetsRetweet: [Tweet!]! @relationship(type: "RETWEET", direction: IN)
+	usersPost: [User!]! @relationship(type: "POST", direction: IN)
+}
+
+type User {
+	community_id: BigInt
+	description: String
+	favourites_count: BigInt
+	followers_count: BigInt
+	following_count: BigInt
+	name: String!
+	pagerank_score: Float
+	postTweets: [Tweet!]! @relationship(type: "POST", direction: OUT)
+	profile_image_url: String
+	project_id: Int!
+	screen_name: String!
+	tweetsMentions: [Tweet!]! @relationship(type: "MENTIONS", direction: IN)
+	user_id: BigInt!
+	verified: Boolean
+	total_neutral_sentiment : Int
+  total_positive_sentiment : Int
+  total_negative_sentiment : Int
+}
+
+type Project {
+  project_id:Int
+  title: String
+  keywords: String
+	filters : String
+  socialmedia: String
+	status: String
+  fromDate : String
+	toDate : String
+	project_type: String
+	project_mode : String
+}
+
+type SelectedTweet {
+	tweet: String
+}
+
+type CountTweetByDate {
+	dateTweet : DateTime
+	countTweet: Int
+	countRetweet: Int
+}
+
+type topHastag {
+	hashtag_text : String
+	countHastag: Int
+}
+
+type topTweet {
+	tweet_text : String
+	retweets_count: Int
+	username : String
+	profile_image_url : String
+}
+
+
+type NodeRelationship {
+	node_start : Int
+	node_end: Int
+	label : String
+}
+
+
+type nodeUser {
+	id : Int
+	username: String
+	screen_name : String
+}
+
+type nodeUserCountRel {
+	id : Int
+	username: String
+	screen_name: String
+	countrel: Int
+}
+
+
+type nodeUserCountTweet {
+	id : Int
+	user_id : BigInt
+	username: String
+	screen_name : String
+	name: String
+	score: Float
+	profile_image_url: String		
+	community_id: BigInt
+	countTweet: Int
+}
+
+type userRank {
+	id : Int
+	username: String
+	screen_name : String
+	name: String
+	score: Float
+	profile_image_url: String		
+	community_id: Int
+	followers_count : Int
+	following_count : Int
+	user_id : BigInt
+}
+
+
+type userAndTweet {
+	node_id : Int
+	username: String
+	screen_name : String
+	name: String
+	tweet_id : Int
+	tweet: String
+	node_start: Int
+	node_end: Int
+	type_rel: String
+	community_id : Int
+	profile_image_url : String
+}
+
+
+type HastagsUsersCount {
+		hastag : String
+		tweet_count : Int, 
+		user_count : Int,
+	  tweets_per_user : Float
+}
+type numberOfNode {
+	jumlah: Int
+}
+
+type SentimentByProject 
+{
+	 project_id : Int
+   sentiment_summary : String,
+   jumlah: Int
+}
+
+type Query {
+   allTweet: [SelectedTweet!]
+        @cypher(
+            statement: """
+            MATCH (a:Tweet)
+            RETURN {tweet:a.tweet}
+            """,
+			passThrough:false
+        )
+	getTweetByDate: [CountTweetByDate!]
+        @cypher(
+            statement: """
+						MATCH (t) 
+						WHERE t:Tweet OR t:Retweet
+						with t.created_at as clock,t
+						WITH right(clock, 26) as clock,t
+						WITH replace(clock, '+0000 ', '') as clock,t
+						WITH replace(clock, ' ', ',') as clock,t
+						WITH replace(clock, 'Jan', '01') as clock,t
+						WITH replace(clock, 'Feb', '02') as clock,t
+						WITH replace(clock, 'Mar', '03') as clock,t
+						WITH replace(clock, 'Apr', '04') as clock,t
+						WITH replace(clock, 'May', '05') as clock,t
+						WITH replace(clock, 'Jun', '06') as clock,t
+						WITH replace(clock, 'Jul', '07') as clock,t
+						WITH replace(clock, 'Aug', '08') as clock,t
+						WITH replace(clock, 'Sep', '09') as clock,t
+						WITH replace(clock, 'Oct', '10') as clock,t
+						WITH replace(clock, 'Nov', '11') as clock,t
+						WITH replace(clock, 'Dec', '12') as clock,t
+						WITH apoc.date.fields(clock, 'MM,dd,HH:mm:ss,yyyy') as clock,t
+						WITH clock.years as year, clock.months as month, clock.days as day, clock.hours as hour, t
+						with date({day: day, month: month, year: year}) AS dateTweet,
+						SUM(case labels(t)[0] when 'Tweet' then 1 else 0 end) as num_tweets,
+						SUM(case labels(t)[0] when 'Retweet' then 1 else 0 end) as num_retweets
+						RETURN {
+								dateTweet : dateTweet,
+								countTweet : num_tweets,
+								countRetweet : num_retweets
+						}
+						ORDER BY dateTweet;
+						""",
+			passThrough:false
+        )
+		getTweetByDateProject(project_id:Int): [CountTweetByDate!]
+        @cypher(
+            statement: """
+						MATCH (t) 
+						WHERE ( t:Tweet OR t:Retweet ) AND t.project_id=$project_id
+						with t.created_at as clock,t
+						WITH right(clock, 26) as clock,t
+						WITH replace(clock, '+0000 ', '') as clock,t
+						WITH replace(clock, ' ', ',') as clock,t
+						WITH replace(clock, 'Jan', '01') as clock,t
+						WITH replace(clock, 'Feb', '02') as clock,t
+						WITH replace(clock, 'Mar', '03') as clock,t
+						WITH replace(clock, 'Apr', '04') as clock,t
+						WITH replace(clock, 'May', '05') as clock,t
+						WITH replace(clock, 'Jun', '06') as clock,t
+						WITH replace(clock, 'Jul', '07') as clock,t
+						WITH replace(clock, 'Aug', '08') as clock,t
+						WITH replace(clock, 'Sep', '09') as clock,t
+						WITH replace(clock, 'Oct', '10') as clock,t
+						WITH replace(clock, 'Nov', '11') as clock,t
+						WITH replace(clock, 'Dec', '12') as clock,t
+						WITH apoc.date.fields(clock, 'MM,dd,HH:mm:ss,yyyy') as clock,t
+						WITH clock.years as year, clock.months as month, clock.days as day, clock.hours as hour, t
+						with date({day: day, month: month, year: year}) AS dateTweet,
+						SUM(case labels(t)[0] when 'Tweet' then 1 else 0 end) as num_tweets,
+						SUM(case labels(t)[0] when 'Retweet' then 1 else 0 end) as num_retweets
+						RETURN {
+								dateTweet : dateTweet,
+								countTweet : num_tweets,
+								countRetweet : num_retweets
+						}
+						ORDER BY dateTweet;
+						""",
+			passThrough:false
+        )
+
+	getReTweetByDate: [CountTweetByDate!]
+        @cypher(
+            statement: """
+						MATCH (a:Tweet)
+						WHERE a.retweet_status = true
+            RETURN {dateTweet:a.date, countTweet : count(*)}
+						""",
+			passThrough:false
+  )
+	getTopHastags: [topHastag!]
+        @cypher(
+            statement: """
+						MATCH (t:Tweet)-[r]->(a:Hashtags)
+					  RETURN {hashtag_text:a.text, countHastag : count(r)}
+						LIMIT 10 
+						""",
+			passThrough:true
+  )
+
+	getTopHastagsByProject(project_id: Int): [topHastag!]
+        @cypher(
+            statement: """
+						MATCH (t:Tweet)-[r]->(a:Hashtags)
+						WHERE t.project_id= $project_id
+					  RETURN {hashtag_text:a.text, countHastag : count(r)}
+						LIMIT 10 
+						""",
+			passThrough:true
+  )
+
+
+	getTopTweet: [topTweet!]
+        @cypher(
+            statement: """
+						MATCH (a:Tweet)-->(b:User)
+					  RETURN {
+							tweet_text:a.tweet, 
+							retweets_count : a.retweets_count, 
+							username : b.screen_name,
+							profile_image_url :b.profile_image_url
+							}
+						LIMIT 10
+						""",
+			passThrough:true
+  )
+
+
+	getTopTweetByProject(project_id:Int): [topTweet!]
+        @cypher(
+            statement: """
+						MATCH (a:Tweet)-->(b:User)
+						WHERE a.project_id=$project_id
+					  RETURN {
+							tweet_text:a.tweet, 
+							retweets_count : a.retweets_count, 
+							username : b.screen_name,
+							profile_image_url :b.profile_image_url
+							}
+						LIMIT 10
+						""",
+			passThrough:true
+  )
+
+
+	getAllUserRelations: [NodeRelationship!]
+        @cypher(
+            statement: """
+							MATCH (n:User)-[r]-(n2:User) RETURN  {node_start : id(n) ,node_end : id(n2) ,label: type(r) } 
+						""",
+			passThrough:true
+  )
+
+	getAllUser: [nodeUser!]
+        @cypher(
+            statement: """
+						MATCH (first:User)
+						RETURN { 
+								id: id(first), 
+								username : first.username, 
+								screen_name : first.screen_name
+						} 
+    				""",
+			passThrough:true
+  )
+
+	getTopUserWithCountRel: [nodeUserCountRel!]
+        @cypher(
+            statement: """
+						MATCH (n:User)-[r]-(n2:User) 
+						RETURN {
+							id : id(n),
+							username : n.username, 
+							screen_name : n.screen_name, 
+							countrel: COUNT(r)
+							}
+    				""",
+			passThrough:true
+  )
+
+		getTopUserWithCountTweet: [nodeUserCountTweet!]
+        @cypher(
+            statement: """
+						MATCH (n:User)-[r]-(t:Tweet) 
+						RETURN {
+							id : id(n),
+							user_id : n.user_id,
+							username : n.username,
+							screen_name : n.screen_name,
+							name : n.name,
+							score : n.pagerank_score,
+							profile_image_url :n.profile_image_url,
+							community_id :n.community_id,
+							countTweet: COUNT(t)
+							}
+    				""",
+			passThrough:true
+  )
+
+
+		getTopUserWithCountTweetByProject(project_id:Int): [nodeUserCountTweet!]
+        @cypher(
+            statement: """
+						MATCH (n:User)-[r]-(t:Tweet) 
+						WHERE n.project_id = $project_id
+						RETURN {
+							id : id(n),
+							user_id : n.user_id,
+							username : n.username,
+							screen_name : n.screen_name,
+							name : n.name,
+							score : n.pagerank_score,
+							profile_image_url :n.profile_image_url,
+							community_id :n.community_id,
+							countTweet: COUNT(t)
+							}
+    				""",
+			passThrough:true
+  )
+
+	getUserRankByProject(project_id:Int): [userRank!]
+        @cypher(
+            statement: """
+						MATCH (n:User)
+						WHERE EXISTS(n.pagerank_score) AND n.project_id=project_id
+						RETURN 
+							{
+							id : id(n),
+							username : n.username,
+							screen_name : n.screen_name,
+							name : n.name,
+							score : n.pagerank_score,
+							profile_image_url :n.profile_image_url,
+							community_id :n.community_id,
+							followers_count : n.followers_count,
+							following_count : n.following_count,
+							user_id : n.user_id
+							}
+						ORDER BY n.pagerank_score DESC limit 10
+    				""",
+			passThrough:true
+  )
+
+
+	getUserRank: [userRank!]
+        @cypher(
+            statement: """
+						MATCH (n:User)
+						WHERE EXISTS(n.pagerank_score)
+						RETURN 
+							{
+							id : id(n),
+							username : n.username,
+							screen_name : n.screen_name,
+							name : n.name,
+							score : n.pagerank_score,
+							profile_image_url :n.profile_image_url,
+							community_id :n.community_id,
+							followers_count : n.followers_count,
+							following_count : n.following_count,
+							user_id : n.user_id
+							}
+						ORDER BY n.pagerank_score DESC limit 10
+    				""",
+			passThrough:true
+  )
+
+	getUserAndTweet: [userAndTweet!]
+        @cypher(
+            statement: """
+						MATCH (u:User)-[r]-(t:Tweet)  WHERE ID(u) IN [493, 494, 495] 
+						RETURN {
+						 node_id : id(u),
+						 screen_name : u.screen_name,
+						 name : u.name,
+						 username : u.username,
+						 tweet_id : id(t),
+						 tweet : t.Tweet,
+						 type_rel: type(r),
+						 node_start : id(u),
+						 node_end: id(t)
+              }
+    				""",
+			passThrough:true
+  )
+	
+
+	getAllProject: [Project!]
+        @cypher(
+            statement: """
+						MATCH (p:Project)
+						RETURN p
+						ORDER BY id(p) DESC
+    				""",
+			passThrough:true
+  )
+
+	getUserAndTweetByCommunityId(community_id:Int): [userAndTweet!]
+        @cypher(
+            statement: """
+						MATCH (u:User)-[r]-(t:Tweet) WHERE u.community_id=$community_id
+						RETURN {
+						 node_id : id(u),
+						 screen_name : u.screen_name,
+						 name : u.name,
+						 username : u.username,
+						 tweet_id : id(t),
+						 tweet : t.Tweet,
+						 type_rel: type(r),
+						 node_start : id(u),
+						 node_end: id(t),
+						 community_id : u.community_id,
+						 profile_image_url :u.profile_image_url
+              }
+    				""",
+			passThrough:true
+  )
+
+	getNumberOfUser(project_id:Int): [numberOfNode!]
+        @cypher(
+            statement: """
+						MATCH (u:User) WHERE u.project_id = $project_id  RETURN {jumlah: count(u)}
+						""",
+			passThrough:true
+  )
+
+	getNumberOfTweet (project_id:Int): [numberOfNode!]
+        @cypher(
+            statement: """
+					MATCH (u:Tweet) WHERE u.project_id = $project_id  RETURN {jumlah: count(u)}
+						""",
+			passThrough:true
+  )
+
+	getNumberOfHastag (project_id:Int): [numberOfNode!]
+        @cypher(
+            statement: """
+						MATCH(a:Hashtags)
+						WHERE a.project_id= 60
+					  RETURN {countHastag : count(a.text)}
+						""",
+			passThrough:true
+  )
+		getHastagsUsersCount: [HastagsUsersCount!]
+        @cypher(
+            statement: """
+						MATCH (h:Hashtags)<-[:TAG]-(t:Tweet)<-[:POST]-(u:User)
+						RETURN 
+						{
+						hastag : h.text,
+						tweet_count : COUNT(DISTINCT t), 
+						user_count : COUNT(DISTINCT u),
+						tweets_per_user : toFloat(COUNT(DISTINCT t))/COUNT(DISTINCT u)
+						}
+						LIMIT 30
+						""",
+			passThrough:true
+  	)
+
+		
+
+			getHastagsUsersCountByProject(project_id:Int): [HastagsUsersCount!]
+        @cypher(
+            statement: """
+						MATCH (h:Hashtags)<-[:TAG]-(t:Tweet)<-[:POST]-(u:User)
+						WHERE t.project_id=$project_id
+						RETURN 
+						{
+						hastag : h.text,
+						tweet_count : COUNT(DISTINCT t), 
+						user_count : COUNT(DISTINCT u),
+						tweets_per_user : toFloat(COUNT(DISTINCT t))/COUNT(DISTINCT u)
+						}
+						LIMIT 30
+						""",
+			passThrough:true
+  	)
+
+		getSentimentByProjectId(project_id:Int): [SentimentByProject!]
+        @cypher(
+            statement: """
+						MATCH (n:Tweet)
+						WHERE n.project_id=26
+						RETURN {
+							project_id : n.project_id,
+							sentiment_summary : n.sentiment_summary,
+							jumlah: COUNT(n)	
+						}
+					""",
+			passThrough:true
+  	)
+
+		getSentimentByUserIud(user_id:Int): [SentimentByProject!]
+        @cypher(
+            statement: """
+						MATCH (u:User)-[R:POST]-(n:Tweet)
+						WHERE u.user_id=$user_id
+						RETURN {
+							user_id : u.user_id,
+							sentiment_summary : n.sentiment_summary,
+							jumlah: COUNT(n)	
+						}
+
+					""",
+			passThrough:true
+  	)
+		
+
+}
+
+
+            
+
+
+	
