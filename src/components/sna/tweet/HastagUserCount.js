@@ -31,6 +31,10 @@ export default function HastagUserCount() {
     variables: { project_id: parseInt(project_id) },
   })
 
+  const userCountArr = [...data.getHastagsUsersCountByProject].sort(
+    (a, b) => b.tweet_count - a.tweet_count
+  )
+
   if (error) return <p>Error</p>
   if (loading) return <CircularProgress />
 
@@ -55,7 +59,6 @@ export default function HastagUserCount() {
             <b> Hastags</b>
           </Typography>
         </Item>
-        <Item>Number of Hastags</Item>
         <Table size="small">
           <TableHead>
             <TableCell>Hastag</TableCell>
@@ -64,15 +67,18 @@ export default function HastagUserCount() {
             <TableCell>Tweet/ User</TableCell>
           </TableHead>
           <TableBody>
-            {data.getHastagsUsersCountByProject.map((hastag, index) => (
+            {userCountArr.map((hastag, index) => (
               <TableRow key={index}>
                 <TableCell># {hastag.hastag}</TableCell>
                 <TableCell align="right">{hastag.tweet_count}</TableCell>
                 <TableCell align="right">{hastag.user_count}</TableCell>
                 <TableCell align="right">
-                  {hastag.tweets_per_user.toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
-                  })}
+                  {(hastag.tweet_count / hastag.user_count).toLocaleString(
+                    undefined,
+                    {
+                      maximumFractionDigits: 2,
+                    }
+                  )}
                 </TableCell>
               </TableRow>
             ))}

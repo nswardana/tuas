@@ -15,6 +15,7 @@ import ProjectAutomatic from './components/ProjectAutomaticList'
 import ProjectFormCreate from './components/ProjectFormCreate'
 import UserList from './components/UserList'
 import ProjectList from './components/ProjectList'
+import ChartTimeLine from './components/sna/timeline/ChartTimeLine'
 import Graph from './components/Graph'
 import ReactForceGraph from './components/ReactForceGraph'
 
@@ -60,7 +61,7 @@ export default function RouterItem({ className = '' }) {
           />
           <Route exact path="/words" component={WordsContent} />
           <Route exact path="/hastagsnetwork" component={HastagsNetwork} />
-          <Route exact path="/sentiment" component={SentimentContent} />
+          <Route exact path="/timeline" component={ChartTimeLine} />
           <Route exact path="/react-force-graph" component={ReactForceGraph} />
         </Switch>
         <Box pt={4}>

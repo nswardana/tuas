@@ -40,29 +40,9 @@ import {
   SelectAll as MoreTimeIcon,
 } from '@material-ui/icons'
 
-import EditIcon from '@material-ui/icons/Edit'
 import { Project, ProjectContext } from './ProjectContext'
 import Menu from './Menu'
 import RouterItem from './RouterItem'
-
-/* SNA*/
-import Overview from './components/sna/overview/Overview'
-import TweetsContent from './components/sna/tweet/TweetsContent'
-import WordsContent from './components/sna/WordsContent'
-import UsersNetwork from './components/sna/UsersNetwork'
-import WordsNetwork from './components/sna/WordsNetwork'
-import WordsNetworkSigma from './components/sna/WordsNetworkSigma'
-import UsersNetworkSigma from './components/sna/UsersNetworkSigma'
-import UsersNetworkD3 from './components/sna/UsersNetworkD3'
-import HastagsNetwork from './components/sna/HastagsNetwork'
-import ChartTimeLine from './components/sna/ChartTimeLine'
-import TwitterUserContent from './components/sna/user/TwitterUserContent'
-import TwitterUserDetailContent from './components/sna/user/TwitterUserDetailContent'
-
-import SentimentContent from './components/SentimentContent'
-import ProjectAutomatic from './components/ProjectAutomaticList'
-
-import UsersTweetNetworkSigma from './components/sna/UsersTweetNetworkSigma'
 
 const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
@@ -174,7 +154,6 @@ export default function App() {
   return (
     <Router>
       <ProjectContext.Provider value={Project.project_id}>
-
         <div className={classes.root} style={{ height: '100%' }}>
           <CssBaseline />
           <AppBar

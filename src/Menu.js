@@ -161,9 +161,9 @@ export default function Menu({ className = '' }) {
       <Link to="/timeline" className={classes.navLink}>
         <ListItem
           button
-          selected={selectedIndex === 9}
+          selected={selectedIndex === 20}
           onClick={(event) => {
-            return handleListItemClick(event, 9)
+            return handleListItemClick(event, 20)
           }}
         >
           <ListItemIcon style={{ color: '#12939A' }}>

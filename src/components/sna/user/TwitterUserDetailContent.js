@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import TwitterUserDetail from './TwitterUserDetail'
 import TwitterUserOfCommunity from './TwitterUserOfCommunity'
 import UserCommunityNetwork from './UserCommunityNetwork'
-import ChartTimeLine from '../ChartTimeLine'
+import ChartTimeLine from '../timeline/ChartTimeLine'
 
 import { useQuery, useLazyQuery, gql } from '@apollo/client'
 import { useParams } from 'react-router-dom'
