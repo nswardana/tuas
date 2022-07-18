@@ -27,7 +27,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
 
 import IconButton from '@material-ui/core/IconButton'
-import Title from './Title'
+import moment from 'moment'
 
 import Typography from '@material-ui/core/Typography'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -60,8 +60,8 @@ const CREATE_PROJECT = gql`
     $keywords: String
     $socialmedia: String
     $status: String
-    $fromDate: String
-    $toDate: String
+    $fromDateTime: DateTime
+    $toDateTime: DateTime
     $project_type: String
   ) {
     createProjects(
@@ -71,8 +71,8 @@ const CREATE_PROJECT = gql`
         keywords: $keywords
         socialmedia: $socialmedia
         status: $status
-        fromDate: $fromDate
-        toDate: $toDate
+        fromDate: $fromDateTime
+        toDate: $toDateTime
         project_type: $project_type
       }
     ) {
@@ -118,7 +118,7 @@ export default function ProjectFormCreate() {
   const [keywords, SetKeywords] = React.useState('')
   const [fromDate, SetFromDate] = React.useState(getCurrentDate('-'))
   const [toDate, SetToDate] = React.useState(getCurrentDate('-'))
-  const [project_type, SetProjectType] = React.useState('REQUEST')
+  const [project_type, SetProjectType] = React.useState('')
   const socialmedia = 'Twitter' // sekarang bisanyanya twitter dahulu
   const status = 'ON GOING' //status di set ON GOING
 
@@ -142,6 +142,9 @@ export default function ProjectFormCreate() {
     let IdFromDate = new Date().getTime()
     const project_id = parseInt(Math.floor(Math.random() * 1000))
 
+    var toDateTime = moment(toDate).format(getCurrentDate('-'))
+    var fromDateTime = moment(fromDate).format('YYYY-MM-DD HH:mm:ss')
+
     createPost({
       variables: {
         project_id,
@@ -149,8 +152,8 @@ export default function ProjectFormCreate() {
         keywords,
         socialmedia,
         status,
-        fromDate,
-        toDate,
+        fromDateTime,
+        toDateTime,
         project_type,
       },
     })

@@ -31,12 +31,12 @@ export default function HastagUserCount() {
     variables: { project_id: parseInt(project_id) },
   })
 
+  if (error) return <p>Error</p>
+  if (loading) return <CircularProgress />
+
   const userCountArr = [...data.getHastagsUsersCountByProject].sort(
     (a, b) => b.tweet_count - a.tweet_count
   )
-
-  if (error) return <p>Error</p>
-  if (loading) return <CircularProgress />
 
   return (
     <FlexCol

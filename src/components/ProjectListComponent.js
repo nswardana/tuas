@@ -34,7 +34,8 @@ import Typography from '@material-ui/core/Typography'
 import {
   TableChart as TableChartIcon,
   Close as CloseIcon,
-  CropRotate as CropRotateIcon,
+  CheckCircle as CheckCircleIcon,
+  Autorenew as AutorenewIcon,
   Twitter as TwitterIcon,
   Assignment as AssignmentIcon,
 } from '@material-ui/icons'
@@ -55,6 +56,7 @@ export default function ProjectListComponent() {
 
   const { loading, error, data } = useQuery(GET_PROJECTS, {
     variables: { project_type: project_mode },
+    pollInterval: 5000,
   })
 
   if (error) return <p>Error</p>
@@ -69,21 +71,21 @@ export default function ProjectListComponent() {
     if (varStatus == 'ON GOING')
       return (
         <Button
-          startIcon={<CropRotateIcon />}
+          startIcon={<AutorenewIcon />}
           size="small"
           variant="outlined"
-          style={{ background: '#4caf50', color: '#FFFFFF' }}
+          style={{ background: '#ef5350', color: '#FFFFFF' }}
         >
           {varStatus}
         </Button>
       )
-    else if (varStatus == 'CLOSED')
+    else if (varStatus == 'SUCCESS')
       return (
         <Button
-          startIcon={<CloseIcon />}
+          startIcon={<CheckCircleIcon />}
           size="small"
           variant="outlined"
-          style={{ background: '#ef5350', color: '#FFFFFF' }}
+          style={{ background: '#4caf50', color: '#FFFFFF' }}
         >
           {varStatus}
         </Button>
@@ -123,11 +125,7 @@ export default function ProjectListComponent() {
       <Card>
         <CardHeader
           avatar={
-            <Typography
-              variant="h6"
-              component="div"
-              style={{ color: '#12939A' }}
-            >
+            <Typography variant="h6" style={{ color: '#12939A' }}>
               <TableChartIcon /> List of Projects
             </Typography>
           }

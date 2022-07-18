@@ -85,7 +85,7 @@ export default function UserCommunityNetwork(ObjComId) {
           color: '#2D82B5',
           strokeColor: '#015C92',
           svg: imgIcon,
-          label: screen_name,
+          label: name,
           size: 400,
           index: index,
           fontSize: 10,
