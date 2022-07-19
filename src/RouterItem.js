@@ -6,6 +6,8 @@ import Overview from './components/sna/overview/Overview'
 import TweetsContent from './components/sna/tweet/TweetsContent'
 import WordsContent from './components/sna/WordsContent'
 import UserTweetNetworkContent from './components/sna/network/UserTweetNetworkContent'
+import TweetNetworkContent from './components/sna/network/TweetNetworkContent'
+
 import HastagsNetwork from './components/sna/HastagsNetwork'
 import TwitterUserContent from './components/sna/user/TwitterUserContent'
 import TwitterUserDetailContent from './components/sna/user/TwitterUserDetailContent'
@@ -59,6 +61,8 @@ export default function RouterItem({ className = '' }) {
             path="/usertweetnetwork"
             component={UserTweetNetworkContent}
           />
+          <Route exact path="/tweetnetwork" component={TweetNetworkContent} />
+
           <Route exact path="/words" component={WordsContent} />
           <Route exact path="/hastagsnetwork" component={HastagsNetwork} />
           <Route exact path="/timeline" component={ChartTimeLine} />

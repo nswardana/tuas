@@ -162,6 +162,21 @@ export default function Menu({ className = '' }) {
         </ListItem>
       </Link>
 
+      <Link to="/tweetnetwork" className={classes.navLink}>
+        <ListItem
+          button
+          selected={selectedIndex === 19}
+          onClick={(event) => {
+            return handleListItemClick(event, 19)
+          }}
+        >
+          <ListItemIcon style={{ color: '#12939A' }}>
+            <HubIcon />
+          </ListItemIcon>
+          <ListItemText primary="Tweet Network" />
+        </ListItem>
+      </Link>
+
       <Link to="/timeline" className={classes.navLink}>
         <ListItem
           button
