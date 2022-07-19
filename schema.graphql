@@ -53,8 +53,8 @@ type Project {
 	filters : String
   socialmedia: String
 	status: String
-  fromDate : String
-	toDate : String
+  fromDate : DateTime
+	toDate : DateTime
 	project_type: String
 	project_mode : String
 }
@@ -140,14 +140,17 @@ type userAndTweet {
 	node_end: Int
 	type_rel: String
 	community_id : Int
+	project_id: Int
 	profile_image_url : String
+	user_id : BigInt
+	conversation_id: BigInt
 }
 
 
 type HastagsUsersCount {
 		hastag : String
-		tweet_count : Int, 
-		user_count : Int,
+		tweet_count : Int 
+		user_count : Int
 	  tweets_per_user : Float
 }
 type numberOfNode {
@@ -157,8 +160,35 @@ type numberOfNode {
 type SentimentByProject 
 {
 	 project_id : Int
-   sentiment_summary : String,
+   sentiment_summary : String
    jumlah: Int
+}
+
+type commCount 
+{
+	 community_id : Int
+   countUser: Int
+}
+
+
+ enum SortOrder {
+    ASC
+    DESC
+  }
+
+input Sort {
+    field: String!,
+    sort: SortOrder = DESC
+  }
+	
+
+type TweetNetwork {
+	node_id : Int
+	tweet : String
+	type_rel : String
+	node_start: Int
+	node_end : Int
+	conversation_id : BigInt
 }
 
 type Query {
@@ -467,16 +497,42 @@ type Query {
 						 name : u.name,
 						 username : u.username,
 						 tweet_id : id(t),
-						 tweet : t.Tweet,
+						 tweet : t.tweet,
 						 type_rel: type(r),
 						 node_start : id(u),
 						 node_end: id(t),
 						 community_id : u.community_id,
-						 profile_image_url :u.profile_image_url
+						 conversation_id : t.conversation_id,
+						 profile_image_url :u.profile_image_url,
+						 user_id:u.user_id
+            }
+    				""",
+			passThrough:true
+  )
+
+	getUserAndTweetByProjectId(project_id:Int): [userAndTweet!]
+        @cypher(
+            statement: """
+						MATCH (u:User)-[r]-(t:Tweet) WHERE u.project_id=$project_id
+						RETURN {
+						 node_id : id(u),
+						 screen_name : u.screen_name,
+						 name : u.name,
+						 username : u.username,
+						 tweet_id : id(t),
+						 tweet : t.text,
+						 type_rel: type(r),
+						 node_start : id(u),
+						 node_end: id(t),
+						 community_id : u.community_id,
+						 conversation_id: t.conversation_id,
+						 profile_image_url :u.profile_image_url,
+						 user_id:u.user_id
               }
     				""",
 			passThrough:true
   )
+
 
 	getNumberOfUser(project_id:Int): [numberOfNode!]
         @cypher(
@@ -542,7 +598,7 @@ type Query {
         @cypher(
             statement: """
 						MATCH (n:Tweet)
-						WHERE n.project_id=26
+						WHERE n.project_id=$project_id
 						RETURN {
 							project_id : n.project_id,
 							sentiment_summary : n.sentiment_summary,
@@ -566,8 +622,32 @@ type Query {
 					""",
 			passThrough:true
   	)
-		
 
+	getCommunityByProject(project_id:Int): [commCount!]
+        @cypher(
+            statement: """
+								MATCH (n:User) WHERE n.project_id=$project_id RETURN { community_id:n.community_id,countUser: count(n)}
+					""",
+			passThrough:true
+  )
+
+	
+	getTweetNetwork (project_id:Int): [TweetNetwork!]
+        @cypher(
+            statement: """
+						MATCH (t:Tweet)-[r]-(t2:Tweet)  WHERE t.project_id=$project_id
+						RETURN {
+						 node_id : id(t),
+						 tweet : t.tweet,
+						 type_rel: type(r),
+						 node_start : id(t),
+						 node_end: id(t2),
+						 conversation_id : t.conversation_id
+					  }
+    				""",
+			passThrough:true
+  )
+		
 }
 
 
