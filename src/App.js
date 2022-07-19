@@ -151,6 +151,10 @@ export default function App() {
     setSelectedIndex(index)
   }
 
+  var project_id = sessionStorage.getItem('project_id')
+  console.log('App project_id ')
+  console.log(project_id)
+
   return (
     <Router>
       <ProjectContext.Provider value={Project.project_id}>

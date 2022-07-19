@@ -30,6 +30,10 @@ import {
 //import HubIcon from '@mui/icons-material/Hub'
 
 export default function Menu({ className = '' }) {
+  var project_id = sessionStorage.getItem('project_id')
+  console.log('TopHastags project_id ')
+  console.log(project_id)
+
   const classes = className
   const [open, setOpen] = React.useState(true)
   const handleDrawerOpen = () => {

@@ -31,6 +31,7 @@ const GET_USER_TWEET_REL = gql`
       project_id
       profile_image_url
       user_id
+      conversation_id
     }
   }
 `
@@ -80,6 +81,7 @@ export default function UserTweetNetwork(ObjComId) {
       tweet,
       type_rel,
       index,
+      conversation_id,
     }) => {
       var imgIcon =
         'https://toppng.com/public/uploads/thumbnail/business-loans-person-icon-png-red-11563187772c5f6v57lng.png'
@@ -97,6 +99,7 @@ export default function UserTweetNetwork(ObjComId) {
           fontSize: 10,
           type: 'user',
           user_id: user_id,
+          node_type: 'user',
         })
       }
       if (!nodes.some(({ id }) => id == node_end)) {
@@ -109,6 +112,8 @@ export default function UserTweetNetwork(ObjComId) {
           index: index,
           fontSize: 10,
           type: 'tweet',
+          node_type: 'tweet',
+          conversation_id: conversation_id,
           svg:
             'https://w7.pngwing.com/pngs/239/740/png-transparent-twitter-logo-icon-twitter-file-logo-social-media-news-thumbnail.png',
         })
@@ -119,17 +124,28 @@ export default function UserTweetNetwork(ObjComId) {
           ({ source, target }) => source == node_start && target == node_end
         )
       ) {
-        var type_curve = 'STRAIGHT'
+        var type_curve = 'CURVE_SMOOTH'
         if (type_rel === 'REPLY') type_curve = 'CURVE_FULL'
-        if (type_rel === 'MENTIONS') type_curve = 'CURVE_SMOOTH'
+        if (type_rel === 'MENTIONS' || type_rel === 'POST')
+          type_curve = 'STRAIGHT'
 
-        links.push({
-          key: generateKey(node_start),
-          source: node_start,
-          target: node_end,
-          label: type_rel,
-          type: type_curve,
-        })
+        if (type_rel === 'MENTIONS') {
+          links.push({
+            key: generateKey(node_start),
+            source: node_end,
+            target: node_start,
+            label: type_rel,
+            type: type_curve,
+          })
+        } else {
+          links.push({
+            key: generateKey(node_start),
+            source: node_start,
+            target: node_end,
+            label: type_rel,
+            type: type_curve,
+          })
+        }
       }
     }
   )
@@ -185,9 +201,13 @@ export default function UserTweetNetwork(ObjComId) {
 
   const onClickNode = function (nodeId, node) {
     console.log('onClickNode')
-    console.log(nodeId)
     console.log(node)
-    //if (node.type === 'user') history.push('/twitteruserdetail/' + node.user_id)
+
+    if (node.conversation_id != null && node.conversation_id !== undefined) {
+      var tweet_conv =
+        'https://twitter.com/EnableNick/status/' + node.conversation_id
+      window.open(tweet_conv, '_blank')
+    }
   }
 
   return (

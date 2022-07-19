@@ -64,9 +64,7 @@ export default function TwitterUser() {
             <b>Most Active Users</b>
           </Typography>
         </Item>
-        <Item>
-          <Link href="#">Refresh</Link> • <Link href="#">See all</Link>
-        </Item>
+        <Item>Tweet,Post,Reply,Retweet</Item>
       </FlexRow>
       <Divider />
       {userCountTweetArr10.map((tweet, index) => (

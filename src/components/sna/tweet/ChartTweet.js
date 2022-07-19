@@ -37,29 +37,50 @@ export default function ChartTweet(props) {
   if (error) return <p>Error</p>
   if (loading) return <CircularProgress />
 
-  console.log('ChartTweet')
-  console.log(data)
+  console.log('getSentimentByProjectId')
+  console.log(data.getSentimentByProjectId)
 
+  var nullValue = '0'
+  var neutralValue = '0'
+  var negativeValue = '0'
+  var positiveValue = '0'
+  data.getSentimentByProjectId.map(function (sentiment, index) {
+    if (sentiment.sentiment_summary === 'NULL') nullValue = sentiment.jumlah
+    if (sentiment.sentiment_summary === 'NEUTRAL')
+      neutralValue = sentiment.jumlah
+    if (sentiment.sentiment_summary === 'NEGATIVE')
+      negativeValue = sentiment.jumlah
+    if (sentiment.sentiment_summary === 'POSITIVE')
+      positiveValue = sentiment.jumlah
+  })
   var dataChart = []
   dataChart.push({
     x: 'NULL',
-    y: data.getSentimentByProjectId[0].jumlah,
+    y: nullValue,
     color: '#cd3b54',
     label: 'NULL!',
     style: { fontSize: 14 },
   })
   dataChart.push({
     x: 'NEUTRAL',
-    y: data.getSentimentByProjectId[1].jumlah,
+    y: neutralValue,
     color: '#59b953',
     label: 'NEUTRAL!',
     style: { fontSize: 14 },
   })
   dataChart.push({
     x: 'NEGATIVE',
-    y: data.getSentimentByProjectId[2].jumlah,
+    y: negativeValue,
     color: '#ba4fb9',
     label: 'NEGATIVE!',
+    style: { fontSize: 14 },
+  })
+
+  dataChart.push({
+    x: 'POSITIVE',
+    y: negativeValue,
+    color: '#ba4fb9',
+    label: 'POSITIVE!',
     style: { fontSize: 14 },
   })
 

@@ -42,6 +42,7 @@ import {
 
 export default function ProjectListComponent() {
   const location = useLocation()
+
   const history = useHistory()
   var pathname = location.pathname
 
@@ -101,7 +102,6 @@ export default function ProjectListComponent() {
   }
 
   function ShowButtonCreateProject() {
-    const location = useLocation()
     var pathname = location.pathname
     console.log('pathname')
     console.log(pathname)

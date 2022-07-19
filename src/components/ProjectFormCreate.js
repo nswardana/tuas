@@ -142,7 +142,7 @@ export default function ProjectFormCreate() {
     let IdFromDate = new Date().getTime()
     const project_id = parseInt(Math.floor(Math.random() * 1000))
 
-    var toDateTime = moment(toDate).format(getCurrentDate('-'))
+    var toDateTime = moment(toDate).format('YYYY-MM-DD HH:mm:ss')
     var fromDateTime = moment(fromDate).format('YYYY-MM-DD HH:mm:ss')
 
     createPost({

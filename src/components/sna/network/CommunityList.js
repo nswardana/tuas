@@ -72,7 +72,7 @@ export default function CommunityList() {
             </TableRow>
             {userCountCommArr.map((comm, index) => (
               <TableRow key={index}>
-                <TableCell>Community {comm.community_id}</TableCell>
+                <TableCell>CommId {comm.community_id}</TableCell>
                 <TableCell align="right">{comm.countUser}</TableCell>
               </TableRow>
             ))}

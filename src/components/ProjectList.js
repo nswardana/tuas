@@ -4,11 +4,9 @@ import { Grid, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import RatingsChart from './RatingsChart'
 import ProjectListComponent from './ProjectListComponent'
 import ChartLine from './ChartLine'
 import ChartBar from './ChartBar'
-import ChartForceGraph from './ChartForceGraph'
 
 export default function ProjectList() {
   const theme = useTheme()
@@ -28,7 +26,6 @@ export default function ProjectList() {
   }))
 
   const classes = useStyles(theme)
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
 
   return (
     <React.Fragment>
