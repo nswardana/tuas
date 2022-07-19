@@ -208,6 +208,10 @@ export default function UserTweetNetwork(ObjComId) {
         'https://twitter.com/EnableNick/status/' + node.conversation_id
       window.open(tweet_conv, '_blank')
     }
+
+    if (node.user_id != null && node.user_id !== undefined) {
+      history.push('/twitteruserdetail/' + node.user_id)
+    }
   }
 
   return (

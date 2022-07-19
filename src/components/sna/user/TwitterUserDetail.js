@@ -56,6 +56,7 @@ const useStyles = makeStyles(({ palette }) => ({
   },
 }))
 
+/*
 export const GET_PROFILE_USERS = gql`
   query getUserById($user_id: BigInt) {
     users(where: { user_id: $user_id }) {
@@ -74,6 +75,7 @@ export const GET_PROFILE_USERS = gql`
     }
   }
 `
+*/
 
 export default function TwitterUserDetail({ dataUser = '' }) {
   const styles = useStyles()
@@ -93,7 +95,11 @@ export default function TwitterUserDetail({ dataUser = '' }) {
     positive: dataUser.total_positive_sentiment,
     negative: dataUser.total_negative_sentiment,
     neutral: dataUser.total_neutral_sentiment,
+    null: 0,
   }
+
+  console.log('dataUser')
+  console.log(dataUser)
 
   return (
     <Card
@@ -121,6 +127,19 @@ export default function TwitterUserDetail({ dataUser = '' }) {
         <br></br>
         <span className={styles.subheader}>@{dataUser.description}</span>
       </CardContent>
+
+      <Divider light />
+      <Box display={'flex'}>
+        <Box p={2} flex={'auto'} className={borderedGridStyles.item}>
+          <p className={styles.statLabel}>Followers</p>
+          <p className={styles.statValue}>{dataUser.followers_count}</p>
+        </Box>
+        <Box p={2} flex={'auto'} className={borderedGridStyles.item}>
+          <p className={styles.statLabel}>Following</p>
+          <p className={styles.statValue}>{dataUser.following_count}</p>
+        </Box>
+      </Box>
+      <Divider light />
       <Box display={'flex'}>
         <Box p={2} flex={'auto'} className={borderedGridStyles.item}>
           <Typography
@@ -131,22 +150,10 @@ export default function TwitterUserDetail({ dataUser = '' }) {
               mt: -0.25,
             }}
           >
-            Positive {objSentiment.positive}| Negative {objSentiment.negative} |
-            Neutral {objSentiment.neutral}{' '}
-          </Typography>
-
+            Positive {objSentiment.positive} | Negative {objSentiment.negative}{' '}
+            | Neutral {objSentiment.neutral}{' '}
+          </Typography>{' '}
           <TwitterUserSentimentChart data={objSentiment} />
-        </Box>
-      </Box>
-      <Divider light />
-      <Box display={'flex'}>
-        <Box p={2} flex={'auto'} className={borderedGridStyles.item}>
-          <p className={styles.statLabel}>Followers</p>
-          <p className={styles.statValue}>{dataUser.followers_count}</p>
-        </Box>
-        <Box p={2} flex={'auto'} className={borderedGridStyles.item}>
-          <p className={styles.statLabel}>Following</p>
-          <p className={styles.statValue}>{dataUser.following_count}</p>
         </Box>
       </Box>
     </Card>

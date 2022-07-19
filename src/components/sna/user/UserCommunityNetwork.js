@@ -31,11 +31,16 @@ const GET_USER_TWEET_REL = gql`
       community_id
       profile_image_url
       conversation_id
+      user_id
     }
   }
 `
 
+import { useHistory, useLocation } from 'react-router-dom'
+
 export default function UserCommunityNetwork(ObjComId) {
+  const history = useHistory()
+
   var commId = parseInt(ObjComId.community_id)
   console.log('community_id ' + commId)
 
@@ -91,6 +96,7 @@ export default function UserCommunityNetwork(ObjComId) {
           index: index,
           fontSize: 10,
           node_type: 'user',
+          user_id: user_id,
         })
       }
       if (!nodes.some(({ id }) => id == node_end)) {
@@ -119,7 +125,6 @@ export default function UserCommunityNetwork(ObjComId) {
         if (type_rel === 'REPLY') type_curve = 'CURVE_FULL'
         if (type_rel === 'MENTIONS' || type_rel === 'POST')
           type_curve = 'STRAIGHT'
-
         if (type_rel === 'MENTIONS') {
           links.push({
             key: generateKey(node_start),
@@ -205,6 +210,10 @@ export default function UserCommunityNetwork(ObjComId) {
       var tweet_conv =
         'https://twitter.com/EnableNick/status/' + node.conversation_id
       window.open(tweet_conv, '_blank')
+    }
+
+    if (node.user_id != null && node.user_id !== undefined) {
+      history.push('/twitteruserdetail/' + node.user_id)
     }
   }
 
