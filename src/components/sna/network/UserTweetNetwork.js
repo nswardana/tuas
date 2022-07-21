@@ -1,20 +1,15 @@
 import React from 'react'
-import { Grid } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import IconButton from '@material-ui/core/IconButton'
 import { Item } from '@mui-treasury/component-flex'
 
-import {
-  Twitter as TwitterIcon,
-  MoreVert as MoreVertIcon,
-  People as PeopleIcon,
-} from '@material-ui/icons'
+import { MoreVert as MoreVertIcon } from '@material-ui/icons'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { Graph } from 'react-d3-graph'
-import { useQuery, useMutation, gql } from '@apollo/client'
+import { useQuery, gql } from '@apollo/client'
 
 const GET_USER_TWEET_REL = gql`
   query getTrack($project_id: Int) {
@@ -36,9 +31,9 @@ const GET_USER_TWEET_REL = gql`
   }
 `
 
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
-export default function UserTweetNetwork(ObjComId) {
+export default function UserTweetNetwork() {
   const history = useHistory()
 
   var project_id = sessionStorage.getItem('project_id')
@@ -58,7 +53,6 @@ export default function UserTweetNetwork(ObjComId) {
   // graph payload (with minimalist structure)
 
   var nodes = []
-  var uniqueNodes = []
   var links = []
 
   console.log('nodeQuery')
@@ -70,12 +64,9 @@ export default function UserTweetNetwork(ObjComId) {
 
   nodeQuery.data.getUserAndTweetByProjectId.map(
     ({
-      project_id,
       user_id,
       screen_name,
-      name,
       profile_image_url,
-      tweet_id,
       node_start,
       node_end,
       tweet,

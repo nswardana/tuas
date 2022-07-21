@@ -1,16 +1,12 @@
 import React from 'react'
-import HSBar from 'react-horizontal-stacked-bar-chart'
 
 import {
-  XYPlot,
   XAxis,
   YAxis,
   HorizontalGridLines,
-  makeWidthFlexible,
   FlexibleWidthXYPlot,
   VerticalGridLines,
   VerticalBarSeries,
-  LabelSeries,
 } from 'react-vis'
 
 export default function TwitterUserSentimentChart({ data = '' }) {

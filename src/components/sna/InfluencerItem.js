@@ -1,11 +1,10 @@
 import React from 'react'
 
-import { FlexRow, FlexCol, Item } from '@mui-treasury/component-flex'
+import { FlexRow, Item } from '@mui-treasury/component-flex'
 
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 
 import Avatar from '@material-ui/core/Avatar'
@@ -13,17 +12,11 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { Twitter as TwitterIcon } from '@material-ui/icons'
 import { useSizedIconButtonStyles } from '@mui-treasury/styles/iconButton/sized'
 
-export default function PersonItem({
-  src = '',
-  name = '',
-  count = 0,
-  desc = 'Tweets',
-  user = '',
-}) {
+export default function PersonItem({ src = '', count = 0, user = '' }) {
   const history = useHistory()
   const small = useSizedIconButtonStyles({
     color: '#000',

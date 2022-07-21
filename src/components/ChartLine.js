@@ -9,18 +9,8 @@ import {
 } from 'react-vis'
 
 import RVStyles from 'react-vis-styles'
-import Title from './Title'
 const FlexibleXYPlot = makeWidthFlexible(XYPlot)
-
 import Typography from '@material-ui/core/Typography'
-import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
-  Assignment as AssignmentIcon,
-  MoreVert as MoreVertIcon,
-  FormatQuote as FormatQuoteIcon,
-} from '@material-ui/icons'
 import MultilineChartOutlined from '@material-ui/icons/MultilineChartRounded'
 
 export default function ChartLine() {

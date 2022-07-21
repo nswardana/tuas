@@ -8,8 +8,6 @@ import {
   VerticalBarSeries,
 } from 'react-vis'
 
-import Title from '../Title'
-import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -18,16 +16,11 @@ import CardHeader from '@material-ui/core/CardHeader'
 import IconButton from '@material-ui/core/IconButton'
 
 import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
-  Assignment as AssignmentIcon,
-  Twitter as TwitterIcon,
   MoreVert as MoreVertIcon,
   FormatQuote as FormatQuoteIcon,
 } from '@material-ui/icons'
 
-export default function WordsChartBar(props) {
+export default function WordsChartBar() {
   return (
     <React.Fragment>
       <Card sx={{ borderTop: 1 }}>

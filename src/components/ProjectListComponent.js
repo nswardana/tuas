@@ -33,7 +33,6 @@ export const GET_PROJECTS = gql`
 import Typography from '@material-ui/core/Typography'
 import {
   TableChart as TableChartIcon,
-  Close as CloseIcon,
   CheckCircle as CheckCircleIcon,
   Autorenew as AutorenewIcon,
   Twitter as TwitterIcon,
@@ -96,7 +95,7 @@ export default function ProjectListComponent() {
 
   function selectRowProject(event, Project) {
     event.preventDefault()
-    var project_id = sessionStorage.setItem('project_id', Project.project_id)
+    sessionStorage.setItem('project_id', Project.project_id)
     console.log('selectRowProject Project')
     history.push('/overview')
   }

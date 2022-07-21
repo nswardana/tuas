@@ -1,10 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {
-  XYPlot,
   XAxis,
   YAxis,
   LineSeries,
-  makeWidthFlexible,
   FlexibleWidthXYPlot,
   DiscreteColorLegend,
   HorizontalGridLines,
@@ -14,7 +12,6 @@ import {
 import RVStyles from 'react-vis-styles'
 
 import { FlexRow, FlexCol, Item } from '@mui-treasury/component-flex'
-import Link from '@material-ui/core/Link'
 import Box from '@material-ui/core/Box'
 
 import Typography from '@material-ui/core/Typography'
@@ -47,14 +44,14 @@ export default function ChartTweetRetweet() {
   if (loading) return <CircularProgress />
 
   const arrDataTweet = tweet.data.getTweetByDateProject.map(
-    ({ dateTweet, countTweet, countRetweet }) => ({
+    ({ dateTweet, countTweet }) => ({
       x: dateTweet,
       y: countTweet,
     })
   )
 
   const arrDataReTweet = tweet.data.getTweetByDateProject.map(
-    ({ dateTweet, countTweet, countRetweet }) => ({
+    ({ dateTweet, countRetweet }) => ({
       x: dateTweet,
       y: countRetweet,
     })

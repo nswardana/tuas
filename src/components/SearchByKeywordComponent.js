@@ -1,16 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Button from '@material-ui/core/Button'
-import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
-  Assignment as AssignmentIcon,
-  Twitter as TwitterIcon,
-  MoreVert as MoreVertIcon,
-  FormatQuote as FormatQuoteIcon,
-  TableChart as TableChartIcon,
-  SearchOutlined as ManageSearchIcon,
-} from '@material-ui/icons'
+import { SearchOutlined as ManageSearchIcon } from '@material-ui/icons'
 
 import TextField from '@material-ui/core/TextField'
 
@@ -47,7 +37,7 @@ const CREATE_PROJECT_AUTO = gql`
   }
 `
 
-import { useQuery, useMutation, gql } from '@apollo/client'
+import { useMutation, gql } from '@apollo/client'
 
 export default function SearchByKeywordComponent() {
   function getCurrentDate(separator = '') {
@@ -69,17 +59,12 @@ export default function SearchByKeywordComponent() {
   const socialmedia = 'Twitter' // sekarang bisanyanya twitter dahulu
   const status = 'ON GOING' //status di set ON GOING
 
-  const [createPost, { loading, errorCreateProject }] = useMutation(
-    CREATE_PROJECT_AUTO,
-    {
-      onCompleted: (data) => {
-        console.log('Data from mutation', data)
-        // jika berhasil crawling data di twitter
-      },
-      onError: (errorCreateProject) =>
-        console.error('Error creating a post', errorCreateProject),
-    }
-  )
+  const [createPost] = useMutation(CREATE_PROJECT_AUTO, {
+    onCompleted: (data) => {
+      console.log('Data from mutation', data)
+      // jika berhasil crawling data di twitter
+    },
+  })
 
   function handleCreatePost(event) {
     event.preventDefault()

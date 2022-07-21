@@ -1,16 +1,4 @@
 import React from 'react'
-import {
-  XYPlot,
-  XAxis,
-  YAxis,
-  HorizontalGridLines,
-  LineSeries,
-  makeWidthFlexible,
-  FlexibleWidthXYPlot,
-  DiscreteColorLegend,
-  VerticalGridLines,
-  VerticalBarSeries,
-} from 'react-vis'
 
 import Avatar from '@material-ui/core/Avatar'
 import { Row, Item } from '@mui-treasury/components/flex'

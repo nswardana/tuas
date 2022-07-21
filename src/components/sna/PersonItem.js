@@ -1,19 +1,16 @@
 import React from 'react'
 
-import { FlexRow, FlexCol, Item } from '@mui-treasury/component-flex'
-import Divider from '@material-ui/core/Divider'
-import Link from '@material-ui/core/Link'
+import { FlexRow, Item } from '@mui-treasury/component-flex'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 export default function PersonItem({
   src = '',

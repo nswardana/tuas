@@ -5,14 +5,7 @@ import App from './App'
 import typeDefs from './typeDefs'
 import registerServiceWorker from './registerServiceWorker'
 
-import {
-  ApolloClient,
-  ApolloLink,
-  ApolloProvider,
-  HttpLink,
-  InMemoryCache,
-} from '@apollo/client'
-import { onError } from '@apollo/client/link/error'
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URI || '/graphql',

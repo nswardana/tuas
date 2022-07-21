@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
-import { makeStyles, withStyles } from '@material-ui/styles'
+import { withStyles } from '@material-ui/styles'
 
 import {
   Table,

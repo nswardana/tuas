@@ -2,7 +2,6 @@ import React from 'react'
 import { useTheme } from '@material-ui/core/styles'
 import { Grid, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 
 import ProjectListComponent from './ProjectListComponent'
 import ChartLine from './ChartLine'

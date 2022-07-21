@@ -1,8 +1,5 @@
 import React from 'react'
-import { useTheme } from '@material-ui/core/styles'
-import { Grid, Paper } from '@material-ui/core'
-
-import clsx from 'clsx'
+import { Grid } from '@material-ui/core'
 
 import HastagUserCount from './HastagUserCount'
 import ChartTweet from './ChartTweet'

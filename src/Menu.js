@@ -2,29 +2,22 @@ import React from 'react'
 import {
   List,
   Divider,
-  Link as MUILink,
   ListItem,
   ListItemText,
   ListItemIcon,
   ListSubheader,
 } from '@material-ui/core'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
   Assignment as AssignmentIcon,
   People as PeopleIcon,
-  FormatQuote as FormatQuoteIcon,
-  SettingsEthernet as SettingsEthernetIcon,
-  Textsms as TextsmsIcon,
-  Style as StyleIcon,
   Timeline as TimelineIcon,
   Autorenew as AutorenewIcon,
   SelectAll as MoreTimeIcon,
   Twitter as TwitterIcon,
   PeopleAlt as HubIcon,
+  Language as LanguageIcon,
 } from '@material-ui/icons'
 
 //import HubIcon from '@mui/icons-material/Hub'
@@ -35,13 +28,7 @@ export default function Menu({ className = '' }) {
   console.log(project_id)
 
   const classes = className
-  const [open, setOpen] = React.useState(true)
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
+  //const [setOpen] = React.useState(true)
 
   const [selectedIndex, setSelectedIndex] = React.useState(1)
   const handleListItemClick = (event, index) => {
@@ -171,7 +158,7 @@ export default function Menu({ className = '' }) {
           }}
         >
           <ListItemIcon style={{ color: '#12939A' }}>
-            <HubIcon />
+            <LanguageIcon />
           </ListItemIcon>
           <ListItemText primary="Tweet Network" />
         </ListItem>

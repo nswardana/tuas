@@ -2,7 +2,6 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import { FlexRow, FlexCol, Item } from '@mui-treasury/component-flex'
 import Divider from '@material-ui/core/Divider'
-import Link from '@material-ui/core/Link'
 import PersonItem from '../PersonItem'
 
 const GET_COUNT_TWEET_USER = gql`

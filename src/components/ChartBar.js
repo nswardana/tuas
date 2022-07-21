@@ -1,34 +1,17 @@
 import React from 'react'
 import {
-  XYPlot,
   XAxis,
   YAxis,
   HorizontalGridLines,
-  LineSeries,
-  makeWidthFlexible,
   FlexibleWidthXYPlot,
-  DiscreteColorLegend,
   VerticalGridLines,
   VerticalBarSeries,
 } from 'react-vis'
 
-import RVStyles from 'react-vis-styles'
-import Title from './Title'
-const FlexibleXYPlot = makeWidthFlexible(XYPlot)
-
 import Typography from '@material-ui/core/Typography'
-import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
-  Assignment as AssignmentIcon,
-  Twitter as TwitterIcon,
-  MoreVert as MoreVertIcon,
-  FormatQuote as FormatQuoteIcon,
-  BarChartRounded as BarChartRoundedIcon,
-} from '@material-ui/icons'
+import { BarChartRounded as BarChartRoundedIcon } from '@material-ui/icons'
 
-export default function ChartBar(props) {
+export default function ChartBar() {
   return (
     <React.Fragment>
       <Typography variant="h6" component="div" style={{ color: '#12939A' }}>

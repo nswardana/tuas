@@ -1,14 +1,11 @@
 import React from 'react'
 import {
-  XYPlot,
   XAxis,
   YAxis,
   HorizontalGridLines,
-  makeWidthFlexible,
   FlexibleWidthXYPlot,
   VerticalGridLines,
   VerticalBarSeries,
-  LabelSeries,
 } from 'react-vis'
 
 import { FlexRow, FlexCol, Item } from '@mui-treasury/component-flex'
@@ -25,7 +22,7 @@ const GET_TWEET_CHART = gql`
   }
 `
 
-export default function ChartTweet(props) {
+export default function ChartTweet() {
   var project_id = sessionStorage.getItem('project_id')
   console.log('ChartTweet project_id ')
   console.log(project_id)
@@ -44,7 +41,9 @@ export default function ChartTweet(props) {
   var neutralValue = '0'
   var negativeValue = '0'
   var positiveValue = '0'
-  data.getSentimentByProjectId.map(function (sentiment, index) {
+  data.getSentimentByProjectId.map(function (sentiment) {
+    positiveValue = positiveValue + 0
+
     if (sentiment.sentiment_summary === 'NULL') nullValue = sentiment.jumlah
     if (sentiment.sentiment_summary === 'NEUTRAL')
       neutralValue = sentiment.jumlah
@@ -83,11 +82,6 @@ export default function ChartTweet(props) {
     label: 'POSITIVE!',
     style: { fontSize: 14 },
   })
-
-  const labelData = dataChart.map((d, idx) => ({
-    x: d.x,
-    y: Math.max(dataChart[idx].y),
-  }))
 
   return (
     <FlexCol

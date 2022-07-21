@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography'
 
 import { FlexRow, FlexCol, Item } from '@mui-treasury/component-flex'
 import Divider from '@material-ui/core/Divider'
-import Link from '@material-ui/core/Link'
 import InfluencerItem from '../InfluencerItem'
 
 import { useQuery, gql } from '@apollo/client'

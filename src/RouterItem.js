@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 /* SNA*/
 import Overview from './components/sna/overview/Overview'
@@ -12,7 +12,6 @@ import HastagsNetwork from './components/sna/HastagsNetwork'
 import TwitterUserContent from './components/sna/user/TwitterUserContent'
 import TwitterUserDetailContent from './components/sna/user/TwitterUserDetailContent'
 
-import SentimentContent from './components/SentimentContent'
 import ProjectAutomatic from './components/ProjectAutomaticList'
 import ProjectFormCreate from './components/ProjectFormCreate'
 import UserList from './components/UserList'

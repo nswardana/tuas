@@ -1,14 +1,10 @@
 import React from 'react'
-import { useTheme } from '@material-ui/core/styles'
-import { Grid, Paper } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
+import { Grid } from '@material-ui/core'
 import TwitterUserDetail from './TwitterUserDetail'
 import TwitterUserOfCommunity from './TwitterUserOfCommunity'
 import UserCommunityNetwork from './UserCommunityNetwork'
-import ChartTimeLine from '../timeline/ChartTimeLine'
 
-import { useQuery, useLazyQuery, gql } from '@apollo/client'
+import { useQuery, gql } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 

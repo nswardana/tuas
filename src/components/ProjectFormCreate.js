@@ -1,25 +1,17 @@
-import React, { useState } from 'react'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
+import React from 'react'
 
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import Radio from '@material-ui/core/Radio'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
-import Slider from '@material-ui/core/Slider'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import InputLabel from '@material-ui/core/InputLabel'
 
 import FormLabel from '@material-ui/core/FormLabel'
 import FormGroup from '@material-ui/core/FormGroup'
-import FormHelperText from '@material-ui/core/FormHelperText'
 import Checkbox from '@material-ui/core/Checkbox'
 
 import Card from '@material-ui/core/Card'
@@ -30,21 +22,14 @@ import IconButton from '@material-ui/core/IconButton'
 import moment from 'moment'
 
 import Typography from '@material-ui/core/Typography'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import {
-  ChevronLeft as ChevronLeftIcon,
-  Menu as MenuIcon,
-  Dashboard as DashboardIcon,
-  Assignment as AssignmentIcon,
-  Twitter as TwitterIcon,
   MoreVert as MoreVertIcon,
-  FormatQuote as FormatQuoteIcon,
-  TableChart as TableChartIcon,
   SearchOutlined as ManageSearchIcon,
-  DriveEtaSharp,
 } from '@material-ui/icons'
 
+/*
 const defaultValues = {
   name: '',
   age: 0,
@@ -52,6 +37,7 @@ const defaultValues = {
   os: '',
   favoriteNumber: 0,
 }
+*/
 
 const CREATE_PROJECT = gql`
   mutation(
@@ -86,22 +72,9 @@ const CREATE_PROJECT = gql`
   }
 `
 
-import { useQuery, useMutation, gql } from '@apollo/client'
+import { useMutation, gql } from '@apollo/client'
 export default function ProjectFormCreate() {
-  const [formValues, setFormValues] = useState(defaultValues)
   const history = useHistory()
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    })
-  }
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    console.log(formValues)
-  }
 
   function getCurrentDate(separator = '') {
     let newDate = new Date()
@@ -122,24 +95,19 @@ export default function ProjectFormCreate() {
   const socialmedia = 'Twitter' // sekarang bisanyanya twitter dahulu
   const status = 'ON GOING' //status di set ON GOING
 
-  const [createPost, { loading, errorCreateProject }] = useMutation(
-    CREATE_PROJECT,
-    {
-      onCompleted: (data) => {
-        console.log('Data from mutation', data)
-        // jika berhasil crawling data di twitter
+  const [createPost, { loading }] = useMutation(CREATE_PROJECT, {
+    onCompleted: (data) => {
+      console.log('Data from mutation', data)
+      // jika berhasil crawling data di twitter
 
-        if (project_type == 'REQUEST') history.push('/project')
-        else history.push('/projectautomatic')
-      },
-      onError: (errorCreateProject) =>
-        console.error('Error creating a post', errorCreateProject),
-    }
-  )
+      if (project_type == 'REQUEST') history.push('/project')
+      else history.push('/projectautomatic')
+    },
+  })
 
   function handleCreatePost(event) {
     event.preventDefault()
-    let IdFromDate = new Date().getTime()
+    // let IdFromDate = new Date().getTime()
     const project_id = parseInt(Math.floor(Math.random() * 1000))
 
     var toDateTime = moment(toDate).format('YYYY-MM-DD HH:mm:ss')
