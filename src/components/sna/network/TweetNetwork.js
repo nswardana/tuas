@@ -182,7 +182,7 @@ export default function TweetNetwork() {
                 component="div"
                 style={{ color: '#000' }}
               >
-                Network Community
+                Network Tweets
               </Typography>
             </Item>
           }

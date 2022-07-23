@@ -12,7 +12,6 @@ import { Link } from 'react-router-dom'
 import {
   Assignment as AssignmentIcon,
   People as PeopleIcon,
-  Timeline as TimelineIcon,
   Autorenew as AutorenewIcon,
   SelectAll as MoreTimeIcon,
   Twitter as TwitterIcon,
@@ -152,30 +151,15 @@ export default function Menu({ className = '' }) {
       <Link to="/tweetnetwork" className={classes.navLink}>
         <ListItem
           button
-          selected={selectedIndex === 19}
+          selected={selectedIndex === 29}
           onClick={(event) => {
-            return handleListItemClick(event, 19)
+            return handleListItemClick(event, 29)
           }}
         >
           <ListItemIcon style={{ color: '#12939A' }}>
             <LanguageIcon />
           </ListItemIcon>
           <ListItemText primary="Tweet Network" />
-        </ListItem>
-      </Link>
-
-      <Link to="/timeline" className={classes.navLink}>
-        <ListItem
-          button
-          selected={selectedIndex === 20}
-          onClick={(event) => {
-            return handleListItemClick(event, 20)
-          }}
-        >
-          <ListItemIcon style={{ color: '#12939A' }}>
-            <TimelineIcon />
-          </ListItemIcon>
-          <ListItemText primary="Time Line " />
         </ListItem>
       </Link>
 

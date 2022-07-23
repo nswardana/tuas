@@ -61,7 +61,9 @@ export default function TwitterUserOfCommunity({ community_id }) {
         <InfluencerItem
           src={user.profile_image_url}
           name={user.screen_name}
-          count={4}
+          count={user.pagerank_score.toLocaleString(undefined, {
+            maximumFractionDigits: 2,
+          })}
           desc="Rank"
           user={user}
           key={index}

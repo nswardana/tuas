@@ -127,6 +127,9 @@ export default function App() {
   console.log('App project_id ')
   console.log(project_id)
 
+  var project_title = sessionStorage.getItem('project_title')
+  console.log('project_title : ' + project_title)
+
   return (
     <Router>
       <div className={classes.root} style={{ height: '100%' }}>
@@ -161,7 +164,7 @@ export default function App() {
               noWrap
               className={classes.title}
             >
-              TOSCA Universal Analytic Social Media
+              {project_title}
             </Typography>
           </Toolbar>
         </AppBar>

@@ -37,6 +37,11 @@ export default function Overview() {
   console.log('TwitterUser project_id ')
   console.log(project_id)
 
+  if (!window.location.hash) {
+    window.location = window.location + '#loaded'
+    window.location.reload()
+  }
+
   const queryUser = useQuery(GET_USER, {
     variables: { project_id: parseInt(project_id) },
   })

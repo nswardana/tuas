@@ -47,6 +47,7 @@ export default function ChartTweetRetweet() {
     ({ dateTweet, countTweet }) => ({
       x: dateTweet,
       y: countTweet,
+      label: countTweet,
     })
   )
 

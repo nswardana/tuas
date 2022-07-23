@@ -56,7 +56,7 @@ export default function ProjectListComponent() {
 
   const { loading, error, data } = useQuery(GET_PROJECTS, {
     variables: { project_type: project_mode },
-    pollInterval: 5000,
+    pollInterval: 3000,
   })
 
   if (error) return <p>Error</p>
@@ -96,6 +96,7 @@ export default function ProjectListComponent() {
   function selectRowProject(event, Project) {
     event.preventDefault()
     sessionStorage.setItem('project_id', Project.project_id)
+    sessionStorage.setItem('project_title', Project.title)
     console.log('selectRowProject Project')
     history.push('/overview')
   }
