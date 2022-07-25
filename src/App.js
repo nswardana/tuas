@@ -152,11 +152,6 @@ export default function App() {
             >
               <MenuIcon />
             </IconButton>
-            <img
-              className={classes.appBarImage}
-              src="img/sna.png"
-              alt="Social Network logo"
-            />
             <Typography
               component="h1"
               variant="h6"
@@ -164,8 +159,14 @@ export default function App() {
               noWrap
               className={classes.title}
             >
-              {project_title}
+              # {project_title}
             </Typography>
+            <img
+              className={classes.appBarImage}
+              src="img/tuas-white.png"
+              alt="Social Network logo"
+            />
+            <b>TOSCA Universal Analytic Social Media 2022.</b>
           </Toolbar>
         </AppBar>
         <Drawer

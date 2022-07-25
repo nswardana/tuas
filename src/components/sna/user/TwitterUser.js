@@ -69,7 +69,7 @@ export default function TwitterUser() {
       {userCountTweetArr10.map((tweet, index) => (
         <PersonItem
           src={tweet.profile_image_url}
-          name={tweet.screen_name}
+          name={tweet.name}
           count={tweet.countTweet}
           key={index}
           user_id={tweet.user_id}
