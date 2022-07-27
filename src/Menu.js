@@ -17,6 +17,7 @@ import {
   Twitter as TwitterIcon,
   PeopleAlt as HubIcon,
   Language as LanguageIcon,
+  HomeOutlined as HomeOutlinedIcon,
 } from '@material-ui/icons'
 
 //import HubIcon from '@mui/icons-material/Hub'
@@ -36,6 +37,23 @@ export default function Menu({ className = '' }) {
 
   return (
     <React.Fragment>
+      <Divider />
+
+      <Link to="/" className={classes.navLink}>
+        <ListItem
+          button
+          selected={selectedIndex === 100}
+          onClick={(event) => {
+            return handleListItemClick(event, 1000)
+          }}
+        >
+          <ListItemIcon style={{ color: '#12939A', fontWeight: 'bold' }}>
+            <HomeOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary="TUAS" />
+        </ListItem>
+      </Link>
+
       <List>
         <ListSubheader
           component="div"
@@ -103,21 +121,6 @@ export default function Menu({ className = '' }) {
         </ListItem>
       </Link>
 
-      <Link to="/twitteruser" className={classes.navLink}>
-        <ListItem
-          button
-          selected={selectedIndex === 4}
-          onClick={(event) => {
-            return handleListItemClick(event, 4)
-          }}
-        >
-          <ListItemIcon style={{ color: '#12939A' }}>
-            <PeopleIcon />
-          </ListItemIcon>
-          <ListItemText primary="User" />
-        </ListItem>
-      </Link>
-
       <Link to="/tweets" className={classes.navLink}>
         <ListItem
           button
@@ -130,6 +133,21 @@ export default function Menu({ className = '' }) {
             <TwitterIcon />
           </ListItemIcon>
           <ListItemText primary="Tweets" />
+        </ListItem>
+      </Link>
+
+      <Link to="/twitteruser" className={classes.navLink}>
+        <ListItem
+          button
+          selected={selectedIndex === 4}
+          onClick={(event) => {
+            return handleListItemClick(event, 4)
+          }}
+        >
+          <ListItemIcon style={{ color: '#12939A' }}>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="User" />
         </ListItem>
       </Link>
 

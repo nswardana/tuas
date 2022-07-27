@@ -80,24 +80,16 @@ export default function TweetNetwork() {
             source == node_start && target == node_end && label == type_rel
         )
       ) {
-        var type_curve = 'CURVE_SMOOTH'
+        var type_curve = 'STRAIGHT'
         if (type_rel === 'REPLY') type_curve = 'CURVE_FULL'
         if (type_rel === 'MENTIONS' || type_rel === 'POST')
-          type_curve = 'STRAIGHT'
+          type_curve = 'CURVE_SMOOTH'
 
-        if (type_rel === 'MENTIONS') {
+        if (type_rel === 'RETWEET') {
           links.push({
             key: generateKey(node_start),
             source: node_end,
             target: node_start,
-            label: type_rel,
-            type: type_curve,
-          })
-        } else {
-          links.push({
-            key: generateKey(node_start),
-            source: node_start,
-            target: node_end,
             label: type_rel,
             type: type_curve,
           })

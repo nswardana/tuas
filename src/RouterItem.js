@@ -1,8 +1,11 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
+import Home from './components/Home'
+
 /* SNA*/
 import Overview from './components/sna/overview/Overview'
+
 import TweetsContent from './components/sna/tweet/TweetsContent'
 import WordsContent from './components/sna/WordsContent'
 import UserTweetNetworkContent from './components/sna/network/UserTweetNetworkContent'
@@ -41,6 +44,7 @@ export default function RouterItem({ className = '' }) {
     <React.Fragment>
       <Container maxWidth="lg" className={classes.container}>
         <Switch>
+          <Route exact path="/" component={Home} />
           <Route exact path="/createproject" component={ProjectFormCreate} />
           <Route exact path="/businesses" component={UserList} />
           <Route exact path="/users" component={UserList} />
