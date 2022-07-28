@@ -2,6 +2,7 @@ import React from 'react'
 import {
   XAxis,
   YAxis,
+  LabelSeries,
   HorizontalGridLines,
   FlexibleWidthXYPlot,
   VerticalGridLines,
@@ -57,30 +58,30 @@ export default function ChartTweet() {
     x: 'NULL',
     y: nullValue,
     color: '#cd3b54',
-    label: 'NULL!',
-    style: { fontSize: 14 },
+    label: nullValue,
+    style: { fontSize: 13 },
   })
   dataChart.push({
     x: 'NEUTRAL',
     y: neutralValue,
     color: '#59b953',
-    label: 'NEUTRAL!',
-    style: { fontSize: 14 },
+    label: neutralValue,
+    style: { fontSize: 13 },
   })
   dataChart.push({
     x: 'NEGATIVE',
     y: negativeValue,
     color: '#ba4fb9',
-    label: 'NEGATIVE!',
-    style: { fontSize: 14 },
+    label: negativeValue,
+    style: { fontSize: 13 },
   })
 
   dataChart.push({
     x: 'POSITIVE',
-    y: negativeValue,
+    y: positiveValue,
     color: '#ba4fb9',
-    label: 'POSITIVE!',
-    style: { fontSize: 14 },
+    label: positiveValue,
+    style: { fontSize: 13 },
   })
 
   return (
@@ -142,6 +143,12 @@ export default function ChartTweet() {
           />
 
           <VerticalBarSeries color="#FF7F00" data={dataChart} />
+          <LabelSeries
+            animation
+            allowOffsetToBeReversed
+            xOffset="500"
+            data={dataChart}
+          />
         </FlexibleWidthXYPlot>
       </FlexRow>
     </FlexCol>

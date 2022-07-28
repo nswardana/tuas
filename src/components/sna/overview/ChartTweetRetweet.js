@@ -3,6 +3,7 @@ import {
   XAxis,
   YAxis,
   LineSeries,
+  LabelSeries,
   FlexibleWidthXYPlot,
   DiscreteColorLegend,
   HorizontalGridLines,
@@ -48,6 +49,7 @@ export default function ChartTweetRetweet() {
       x: dateTweet,
       y: countTweet,
       label: countTweet,
+      style: { fontSize: 9 },
     })
   )
 
@@ -105,7 +107,7 @@ export default function ChartTweetRetweet() {
               tickFormat={function tickFormat(d) {
                 return new Date(d).toLocaleDateString()
               }}
-              tickLabelAngle={0}
+              tickLabelAngle={-30}
               style={{
                 line: { stroke: '#ADDDE1' },
                 ticks: { stroke: '#ADDDE1' },
@@ -148,6 +150,12 @@ export default function ChartTweetRetweet() {
               opacity={1}
               strokeStyle="solid"
               style={{}}
+            />
+            <LabelSeries
+              animation
+              allowOffsetToBeReversed
+              xOffset="500"
+              data={arrDataTweet}
             />
           </FlexibleWidthXYPlot>
         </Box>
